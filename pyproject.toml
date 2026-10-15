@@ -1,0 +1,9 @@
+[project]
+name = "plcguard"
+version = "0.1.0"
+description = "LLM-assisted vulnerability detection and repair for PLC Structured Text"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

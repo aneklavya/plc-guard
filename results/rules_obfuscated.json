@@ -1,0 +1,374 @@
+{
+  "per_type": {
+    "DIV_BY_ZERO": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "HARDCODED_CREDENTIAL": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "INPUT_VALIDATION": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "LOGIC_BOMB": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "MISSING_INTERLOCK": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 2,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "OOB_INDEX": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "UNPROTECTED_CRITICAL_VAR": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "UNSAFE_STATE_TRANSITION": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666
+    }
+  },
+  "micro": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 5,
+    "precision": 1.0,
+    "recall": 0.5454545454545454,
+    "f1": 0.7058823529411764
+  },
+  "file_level": {
+    "vulnerable_files": 10,
+    "vulnerable_detected": 6,
+    "clean_files": 10,
+    "clean_flagged": 0
+  },
+  "localisation": {
+    "correct": 6,
+    "of_detected": 6
+  },
+  "parse_errors": 0,
+  "programs": [
+    {
+      "file": "01_tank_level_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 12,
+          "message": "'v4' (%MW0) is network-writable and flows into 'v6' without a range check",
+          "rule": "PLC-IV",
+          "variable": "v4",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "01_tank_level_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "02_pump_station_vuln.st",
+      "expected": [
+        "MISSING_INTERLOCK"
+      ],
+      "predicted": [],
+      "missed": [
+        "MISSING_INTERLOCK"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "02_pump_station_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "03_maintenance_access_vuln.st",
+      "expected": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "predicted": [],
+      "missed": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "03_maintenance_access_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "04_conveyor_vuln.st",
+      "expected": [
+        "LOGIC_BOMB",
+        "MISSING_INTERLOCK"
+      ],
+      "predicted": [
+        "LOGIC_BOMB"
+      ],
+      "missed": [
+        "MISSING_INTERLOCK"
+      ],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "LOGIC_BOMB",
+          "line": 14,
+          "message": "branch gated by a magic constant overrides output 'v5'",
+          "rule": "PLC-BOMB",
+          "variable": "v5",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "04_conveyor_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "05_recipe_batch_vuln.st",
+      "expected": [
+        "OOB_INDEX"
+      ],
+      "predicted": [
+        "OOB_INDEX"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "OOB_INDEX",
+          "line": 12,
+          "message": "array index 'v1' is not bounds-checked",
+          "rule": "PLC-OOB",
+          "variable": "v1",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "OOB_INDEX",
+          "line": 13,
+          "message": "array index 'v1' is not bounds-checked",
+          "rule": "PLC-OOB",
+          "variable": "v1",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "05_recipe_batch_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "06_flow_ratio_vuln.st",
+      "expected": [
+        "DIV_BY_ZERO"
+      ],
+      "predicted": [
+        "DIV_BY_ZERO"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "DIV_BY_ZERO",
+          "line": 9,
+          "message": "divisor 'v2' is not checked for zero",
+          "rule": "PLC-DIV",
+          "variable": "v2",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "06_flow_ratio_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "07_burner_sequence_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [],
+      "missed": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "07_burner_sequence_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "08_boiler_trip_vuln.st",
+      "expected": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "predicted": [],
+      "missed": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "08_boiler_trip_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "09_heater_power_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 12,
+          "message": "'v3' (%MW0) is network-writable and flows into 'v5' without a range check",
+          "rule": "PLC-IV",
+          "variable": "v3",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "09_heater_power_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "10_traffic_light_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "UNSAFE_STATE_TRANSITION",
+          "line": 29,
+          "message": "state 'v8' is written directly from network-writable 'v1'",
+          "rule": "PLC-STATE",
+          "variable": "v8",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "10_traffic_light_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    }
+  ]
+}

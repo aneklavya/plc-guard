@@ -1,0 +1,417 @@
+{
+  "per_type": {
+    "DIV_BY_ZERO": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "HARDCODED_CREDENTIAL": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "INPUT_VALIDATION": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "LOGIC_BOMB": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "MISSING_INTERLOCK": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "OOB_INDEX": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "UNPROTECTED_CRITICAL_VAR": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "UNSAFE_STATE_TRANSITION": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "micro": {
+    "tp": 11,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "file_level": {
+    "vulnerable_files": 10,
+    "vulnerable_detected": 10,
+    "clean_files": 10,
+    "clean_flagged": 0
+  },
+  "localisation": {
+    "correct": 11,
+    "of_detected": 11
+  },
+  "parse_errors": 0,
+  "programs": [
+    {
+      "file": "01_tank_level_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 12,
+          "message": "'hmi_valve_sp' (%MW0) is network-writable and flows into 'outlet_cmd' without a range check",
+          "rule": "PLC-IV",
+          "variable": "hmi_valve_sp",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "01_tank_level_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "02_pump_station_vuln.st",
+      "expected": [
+        "MISSING_INTERLOCK"
+      ],
+      "predicted": [
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 17,
+          "message": "actuator 'pump_run' can be energised without any safety condition",
+          "rule": "PLC-INTERLOCK",
+          "variable": "pump_run",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "02_pump_station_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "03_maintenance_access_vuln.st",
+      "expected": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "predicted": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "HARDCODED_CREDENTIAL",
+          "line": 10,
+          "message": "'hmi_pin' is compared against a hard-coded value",
+          "rule": "PLC-CRED",
+          "variable": "hmi_pin",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "03_maintenance_access_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "04_conveyor_vuln.st",
+      "expected": [
+        "LOGIC_BOMB",
+        "MISSING_INTERLOCK"
+      ],
+      "predicted": [
+        "LOGIC_BOMB",
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "LOGIC_BOMB",
+          "line": 14,
+          "message": "branch gated by a magic constant overrides output 'jam_alarm'",
+          "rule": "PLC-BOMB",
+          "variable": "jam_alarm",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 16,
+          "message": "actuator 'conveyor_motor' can be energised without any safety condition",
+          "rule": "PLC-INTERLOCK",
+          "variable": "conveyor_motor",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "04_conveyor_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "05_recipe_batch_vuln.st",
+      "expected": [
+        "OOB_INDEX"
+      ],
+      "predicted": [
+        "OOB_INDEX"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "OOB_INDEX",
+          "line": 12,
+          "message": "array index 'hmi_recipe_idx' is not bounds-checked",
+          "rule": "PLC-OOB",
+          "variable": "hmi_recipe_idx",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "OOB_INDEX",
+          "line": 13,
+          "message": "array index 'hmi_recipe_idx' is not bounds-checked",
+          "rule": "PLC-OOB",
+          "variable": "hmi_recipe_idx",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "05_recipe_batch_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "06_flow_ratio_vuln.st",
+      "expected": [
+        "DIV_BY_ZERO"
+      ],
+      "predicted": [
+        "DIV_BY_ZERO"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "DIV_BY_ZERO",
+          "line": 9,
+          "message": "divisor 'flow_b' is not checked for zero",
+          "rule": "PLC-DIV",
+          "variable": "flow_b",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "06_flow_ratio_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "07_burner_sequence_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "UNSAFE_STATE_TRANSITION",
+          "line": 26,
+          "message": "transition of 'state' can be triggered by bypass signal 'hmi_skip_purge'",
+          "rule": "PLC-STATE",
+          "variable": "state",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "07_burner_sequence_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "08_boiler_trip_vuln.st",
+      "expected": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "predicted": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+          "line": 5,
+          "message": "safety parameter 'trip_pressure' is stored in network-writable %MW20",
+          "rule": "PLC-CRITVAR",
+          "variable": "trip_pressure",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "08_boiler_trip_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "09_heater_power_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 12,
+          "message": "'hmi_power_pct' (%MW0) is network-writable and flows into 'heater_power_out' without a range check",
+          "rule": "PLC-IV",
+          "variable": "hmi_power_pct",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "09_heater_power_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "10_traffic_light_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "UNSAFE_STATE_TRANSITION",
+          "line": 29,
+          "message": "state 'phase' is written directly from network-writable 'hmi_force_phase'",
+          "rule": "PLC-STATE",
+          "variable": "phase",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "10_traffic_light_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    }
+  ]
+}

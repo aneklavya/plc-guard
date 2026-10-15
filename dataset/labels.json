@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "programs": [
+    {"file": "01_tank_level_vuln.st", "scenario": "tank_level", "vulnerable": true,
+     "vulns": [{"type": "INPUT_VALIDATION", "snippet": "outlet_cmd := hmi_valve_sp;",
+                "description": "HMI register written straight to the analog outlet valve with no 0..100 range check."}]},
+    {"file": "01_tank_level_clean.st", "scenario": "tank_level", "vulnerable": false, "vulns": []},
+
+    {"file": "02_pump_station_vuln.st", "scenario": "pump_station", "vulnerable": true,
+     "vulns": [{"type": "MISSING_INTERLOCK", "snippet": "pump_run := run_latch;",
+                "description": "Pump ignores the low-level (dry-run) switch and the motor overload input."}]},
+    {"file": "02_pump_station_clean.st", "scenario": "pump_station", "vulnerable": false, "vulns": []},
+
+    {"file": "03_maintenance_access_vuln.st", "scenario": "maintenance_access", "vulnerable": true,
+     "vulns": [{"type": "HARDCODED_CREDENTIAL", "snippet": "hmi_pin = 4711",
+                "description": "Hard-coded PIN 4711 written over Modbus bypasses the physical key switch."}]},
+    {"file": "03_maintenance_access_clean.st", "scenario": "maintenance_access", "vulnerable": false, "vulns": []},
+
+    {"file": "04_conveyor_vuln.st", "scenario": "conveyor", "vulnerable": true,
+     "vulns": [{"type": "LOGIC_BOMB", "snippet": "IF cycle_count > 864000 THEN",
+                "description": "After ~864000 scans a hidden branch silences the jam alarm and overrides the motor logic."},
+               {"type": "MISSING_INTERLOCK", "snippet": "conveyor_motor := hmi_start;",
+                "description": "Inside the hidden branch the motor runs without the e-stop and jam checks."}]},
+    {"file": "04_conveyor_clean.st", "scenario": "conveyor", "vulnerable": false, "vulns": []},
+
+    {"file": "05_recipe_batch_vuln.st", "scenario": "recipe_batch", "vulnerable": true,
+     "vulns": [{"type": "OOB_INDEX", "snippet": "temp_sp := recipe_temp[hmi_recipe_idx];",
+                "description": "HMI recipe index used as array subscript without checking 0..4."}]},
+    {"file": "05_recipe_batch_clean.st", "scenario": "recipe_batch", "vulnerable": false, "vulns": []},
+
+    {"file": "06_flow_ratio_vuln.st", "scenario": "flow_ratio", "vulnerable": true,
+     "vulns": [{"type": "DIV_BY_ZERO", "snippet": "ratio_x100 := (flow_a * 100) / flow_b;",
+                "description": "flow_b reads 0 when the line is stopped or the sensor fails -> PLC fault."}]},
+    {"file": "06_flow_ratio_clean.st", "scenario": "flow_ratio", "vulnerable": false, "vulns": []},
+
+    {"file": "07_burner_sequence_vuln.st", "scenario": "burner_sequence", "vulnerable": true,
+     "vulns": [{"type": "UNSAFE_STATE_TRANSITION", "snippet": "IF purge_timer.Q OR hmi_skip_purge THEN",
+                "description": "HMI bit lets the sequence skip the pre-ignition purge (explosion risk)."}]},
+    {"file": "07_burner_sequence_clean.st", "scenario": "burner_sequence", "vulnerable": false, "vulns": []},
+
+    {"file": "08_boiler_trip_vuln.st", "scenario": "boiler_trip", "vulnerable": true,
+     "vulns": [{"type": "UNPROTECTED_CRITICAL_VAR", "snippet": "trip_pressure  AT %MW20  : INT := 120;",
+                "description": "High-pressure trip point lives in a Modbus holding register; an attacker can raise it."}]},
+    {"file": "08_boiler_trip_clean.st", "scenario": "boiler_trip", "vulnerable": false, "vulns": []},
+
+    {"file": "09_heater_power_vuln.st", "scenario": "heater_power", "vulnerable": true,
+     "vulns": [{"type": "INPUT_VALIDATION", "snippet": "heater_power_out := hmi_power_pct * 327;",
+                "description": "HMI power percentage is not clamped; large values overflow / drive the heater at full power."}]},
+    {"file": "09_heater_power_clean.st", "scenario": "heater_power", "vulnerable": false, "vulns": []},
+
+    {"file": "10_traffic_light_vuln.st", "scenario": "traffic_light", "vulnerable": true,
+     "vulns": [{"type": "UNSAFE_STATE_TRANSITION", "snippet": "phase := hmi_force_phase;",
+                "description": "HMI can jump from NS-green directly to EW-green, skipping the yellow phase."}]},
+    {"file": "10_traffic_light_clean.st", "scenario": "traffic_light", "vulnerable": false, "vulns": []}
+  ]
+}
