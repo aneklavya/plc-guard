@@ -10,19 +10,21 @@ ST code ──► rule-based checker ──┐
                                  └──────────── retry ◄────────────┘
 ```
 
+**Full documentation, written to study from: [docs/](docs/README.md).**
+
 ## Roadmap
 
 - [x] **Stage 1: Foundations.** ST parser, rule-based checker (8 vulnerability
   classes), labeled benchmark (10 vulnerable/clean pairs), evaluation harness,
   obfuscated-variant robustness test.
-- [ ] **Stage 2: LLM detector.** Structured-JSON prompts, API model + local
-  open model (PyTorch/HuggingFace), hybrid rules+LLM, comparison on both
-  dataset variants.
+- [x] **Stage 2: LLM detector.** Zero-shot structured-JSON prompt, NVIDIA
+  Nemotron 3 Ultra (free API; Gemini and OpenRouter also supported), hybrid
+  rules+LLM, 3-repeat comparison on both dataset variants, experiment tracking.
 - [ ] **Stage 3: LLM repair + verification loop.** Patch generation, re-scan,
   compile check (OpenPLC/MatIEC), retry.
 - [ ] **Stage 4: Grow the dataset** to 30+ pairs.
 - [ ] **Stage 5: Live demo.** OpenPLC runtime + Modbus attack before/after the
-  fix, Streamlit UI.
+  fix. (Streamlit UI already built, see below.)
 
 ## Quick start
 
@@ -108,6 +110,22 @@ point (interlock, credential, critical variable, state bypass) fail
 completely. Understanding what a variable *means* in the physical process is
 the gap an LLM is meant to close, and Stage 2 measures whether it does.
 
+## Stage 2 results (LLM detector)
+
+Nemotron 3 Ultra, zero-shot, temperature 0, mean ± std of 3 runs:
+
+| Detector | Dataset | Precision | Recall | F1 | Clean files flagged |
+|---|---|---|---|---|---|
+| Rules | Original | 1.00 | 1.00 | 1.00 | 0/10 |
+| Rules | Obfuscated | 1.00 | 0.55 | 0.71 | 0/10 |
+| LLM | Original | 0.65 ± 0.07 | 1.00 | 0.79 ± 0.05 | 3.3/10 |
+| LLM | Obfuscated | 0.53 ± 0.06 | 1.00 | 0.69 ± 0.05 | 4.7/10 |
+
+The LLM keeps full recall when names are removed, so it is not relying on
+them to find bugs. Its weakness is false alarms, which get worse without
+names; some of them look like real issues the labels miss. The hybrid
+(rules ∪ LLM) equals the LLM alone. Analysis: [docs/04-stage2-llm.md](docs/04-stage2-llm.md).
+
 ## Layout
 
 ```
@@ -122,6 +140,9 @@ plcguard/
   evaluate.py    per-type P/R/F1, file-level and line-level scoring
   obfuscate.py   semantics-preserving variable renaming
 dataset/         labeled .st programs (see dataset/README.md)
-results/         evaluation reports (.md + .json)
+results/         evaluation reports (.md + .json), runs.jsonl, SUMMARY.md, llm_cache/
+docs/            study documentation
+app.py           Streamlit web UI
+infra/terraform/ AWS EC2 deployment (not applied)
 tests/
 ```
