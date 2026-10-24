@@ -1,0 +1,2 @@
+# Web UI only; the plcguard package itself needs nothing beyond the standard library.
+streamlit==1.44.1

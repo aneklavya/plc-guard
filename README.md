@@ -47,6 +47,30 @@ python -m plcguard models --filter nemotron                      # list NVIDIA m
 The model sees only the numbered program text: no file name, no labels, no
 examples from the dataset (zero-shot, temperature 0).
 
+## Web UI
+
+```bash
+pip install -r requirements-app.txt
+streamlit run app.py                      # http://localhost:8501
+```
+
+Scan an example program or your own code with the rules, Nemotron, or both,
+optionally with variables renamed, and browse the evaluation results. Example
+programs use the cached LLM replies (no API calls). Pasted code calls the
+NVIDIA API with the visitor's own key, or with the server's `NVIDIA_API_KEY`,
+capped at `PLCGUARD_SESSION_LIMIT` scans per session (default 5) and
+`PLCGUARD_DAILY_LIMIT` per day (default 200). Code is analysed, never run.
+
+Docker: `docker build -t plcguard . && docker run -p 8501:8501 --env-file .env plcguard`
+
+AWS (one free-tier EC2 instance, nothing applied yet): see `infra/terraform/`.
+
+```bash
+aws ssm put-parameter --name /plcguard/nvidia_api_key --type SecureString --value nvapi-...
+cd infra/terraform && terraform init && terraform apply   # prints the URL
+terraform destroy                                         # when done
+```
+
 ## Reproducibility
 
 - **Cached replies.** Every LLM reply is stored in `results/llm_cache/`

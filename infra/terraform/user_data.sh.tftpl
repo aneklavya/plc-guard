@@ -1,0 +1,30 @@
+#!/bin/bash
+# Boot script: install Docker, build the app from GitHub, run it on port 8501.
+set -euxo pipefail
+
+dnf install -y docker git
+systemctl enable --now docker
+
+# A 1 GB instance needs swap to build the image comfortably.
+if [ ! -f /swapfile ]; then
+  dd if=/dev/zero of=/swapfile bs=1M count=2048
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  echo '/swapfile swap swap defaults 0 0' >> /etc/fstab
+fi
+
+rm -rf /opt/plcguard
+git clone --depth 1 ${repo_url} /opt/plcguard
+docker build -t plcguard /opt/plcguard
+
+# Optional: the app works without a server key (rules + cached examples).
+KEY=$(aws ssm get-parameter --region ${region} --name ${key_parameter} \
+      --with-decryption --query Parameter.Value --output text 2>/dev/null || true)
+umask 077
+printf 'NVIDIA_API_KEY=%s\nPLCGUARD_SESSION_LIMIT=%s\nPLCGUARD_DAILY_LIMIT=%s\n' \
+  "$KEY" "${session_limit}" "${daily_limit}" > /opt/plcguard.env
+
+docker rm -f plcguard 2>/dev/null || true
+docker run -d --name plcguard --restart unless-stopped \
+  --env-file /opt/plcguard.env -p 8501:8501 plcguard
