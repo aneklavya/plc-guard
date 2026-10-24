@@ -1,0 +1,7 @@
+{
+ "provider": "gemini",
+ "model": "gemini-3.5-flash",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 25, \"variable\": \"hmi_skip_purge\", \"explanation\": \"An HMI command bit allows skipping the required purge cycle prior to ignition, introducing a safety risk.\"}]}"
+}

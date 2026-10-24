@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"HARDCODED_CREDENTIAL\", \"line\": 10, \"variable\": \"v1\", \"explanation\": \"Magic constant 4711 hardcoded in logic acts as a credential that bypasses physical sensor v3 when written to network-writable register %MW10.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 10, \"variable\": \"v5\", \"explanation\": \"Actuator v5 can be energized without physical interlock v3 being active by setting network-writable register v1 to 4711.\"}]}"
+}

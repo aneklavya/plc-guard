@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 17, \"variable\": \"v5\", \"explanation\": \"Actuator v5 is energized solely by HMI command bits v1/v2 without checking physical safety inputs v3/v4 (e-stop, level sensors).\"}]}"
+}

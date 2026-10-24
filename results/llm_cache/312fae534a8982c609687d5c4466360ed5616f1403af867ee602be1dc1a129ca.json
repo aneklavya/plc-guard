@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 28, \"variable\": \"v1\", \"explanation\": \"Network-writable Modbus register %MW0 (v1) can force the traffic light state machine (v8) into any state 0-3 at any time, bypassing the normal timed sequence and safety interlocks.\"}]}"
+}

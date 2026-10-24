@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"HARDCODED_CREDENTIAL\", \"line\": 10, \"variable\": \"v1\", \"explanation\": \"Magic value 4711 hardcoded in logic allows bypassing the v3 safety interlock when written to network register %MW10.\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 10, \"variable\": \"v1\", \"explanation\": \"Network-writable Modbus register %MW10 (v1) used in safety-critical output condition without range or sanity checks.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 10, \"variable\": \"v5\", \"explanation\": \"Actuator v5 can be energized without the v3 safety input being true by writing 4711 to v1.\"}]}"
+}

@@ -370,5 +370,57 @@
       "findings": [],
       "error": null
     }
-  ]
+  ],
+  "run": {
+    "timestamp": "2026-10-24T04:07:07+00:00",
+    "git_commit": "f90ac55",
+    "git_dirty": true,
+    "python": "3.13.0",
+    "dataset_hash": "98d73f944c19",
+    "detector": "rules",
+    "variant": "obfuscated",
+    "line_tolerance": 1,
+    "repeats": 1,
+    "clean_files": 10,
+    "wall_seconds": 0.0,
+    "metrics": {
+      "n": 1,
+      "precision": {
+        "mean": 1.0,
+        "std": 0.0,
+        "values": [
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 0.5454545454545454,
+        "std": 0.0,
+        "values": [
+          0.5454545454545454
+        ]
+      },
+      "f1": {
+        "mean": 0.7058823529411764,
+        "std": 0.0,
+        "values": [
+          0.7058823529411764
+        ]
+      },
+      "clean_flagged": {
+        "mean": 0.0,
+        "std": 0.0,
+        "values": [
+          0
+        ]
+      },
+      "errors": {
+        "mean": 0.0,
+        "std": 0.0,
+        "values": [
+          0
+        ]
+      }
+    }
+  },
+  "repeat_reports": []
 }

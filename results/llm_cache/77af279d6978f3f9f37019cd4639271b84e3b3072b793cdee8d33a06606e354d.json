@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"HARDCODED_CREDENTIAL\", \"line\": 10, \"variable\": \"hmi_pin\", \"explanation\": \"Hardcoded PIN 4711 in logic grants maintenance mode access, bypassing physical key switch.\"}]}"
+}

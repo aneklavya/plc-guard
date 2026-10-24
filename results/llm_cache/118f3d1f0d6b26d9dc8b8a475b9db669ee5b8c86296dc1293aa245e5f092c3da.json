@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 20, \"variable\": \"flame_detected\", \"explanation\": \"Burner sequence transitions from idle to purge (energizing purge_fan) without verifying flame_detected is false, violating pre-purge safety interlock.\"}]}"
+}

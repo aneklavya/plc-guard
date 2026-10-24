@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 12, \"variable\": \"v3\", \"explanation\": \"Untrusted Modbus register %MW0 (v3) used directly in actuator setpoint calculation without range validation.\"}]}"
+}

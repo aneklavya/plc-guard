@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"OOB_INDEX\", \"line\": 12, \"variable\": \"v1\", \"explanation\": \"v1 from %MW0 (Modbus holding register, network-writable) is used as an array index for v5 and v6 without bounds checking, allowing out-of-bounds access if v1 < 0 or > 4.\"}]}"
+}

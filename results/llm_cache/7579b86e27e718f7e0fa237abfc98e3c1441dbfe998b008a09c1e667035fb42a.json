@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 12, \"variable\": \"hmi_valve_sp\", \"explanation\": \"Untrusted HMI/network-writable register %MW0 (hmi_valve_sp) is copied directly to analog output %QW0 (outlet_cmd) without any range or sanity check.\"}]}"
+}

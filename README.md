@@ -28,11 +28,45 @@ ST code ──► rule-based checker ──┐
 
 ```bash
 pip install -r requirements.txt
-python -m pytest                                   # 60 tests
+python -m pytest                                   # 85 tests, offline
 python -m plcguard scan dataset/programs/04_conveyor_vuln.st
 python -m plcguard eval                            # original dataset
 python -m plcguard eval --variant obfuscated       # variables renamed v1, v2, ...
 ```
+
+LLM detector (Stage 2). Put a key in `.env` (see `.env.example`), then:
+
+```bash
+python -m plcguard eval --detector llm                          # Gemini (default)
+python -m plcguard eval --detector hybrid --variant obfuscated  # rules ∪ LLM
+python -m plcguard eval --detector llm --provider openrouter --model <id>
+python -m plcguard eval --detector llm --provider nvidia         # free Nemotron (build.nvidia.com)
+python -m plcguard models --filter nemotron                      # list NVIDIA model ids
+```
+
+The model sees only the numbered program text: no file name, no labels, no
+examples from the dataset (zero-shot, temperature 0).
+
+## Reproducibility
+
+- **Cached replies.** Every LLM reply is stored in `results/llm_cache/`
+  (keyed by provider, model, temperature, prompt and repeat index) and
+  committed, so anyone can re-run an evaluation and get the same numbers
+  without an API key. `--no-cache` forces fresh calls.
+- **Run manifests.** Each report ends with a *Run* section: git commit (and
+  whether the tree was dirty), dataset hash, model, temperature, prompt version
+  and prompt hash, API calls and cache hits.
+- **Experiment log.** Every `eval` appends one line to `results/runs.jsonl`
+  (append-only). `python -m plcguard summary` turns the latest run per
+  configuration into `results/SUMMARY.md`.
+- **Repeats.** `--repeats N` runs the LLM N times and reports mean ± std.
+  With 10 vulnerable files, one answer moves recall by 0.1, so single runs
+  are not quoted as results.
+- **Pinned models.** Versioned model ids only, never `-latest` aliases.
+- **Secrets.** Keys live in `.env` (gitignored). `tests/test_secrets.py`
+  fails if a key-like string appears in any file git would commit.
+- **CI.** `.github/workflows/tests.yml` runs the offline test suite on
+  Python 3.11 and 3.13.
 
 ## Stage 1 results (rule-based checker)
 
@@ -58,6 +92,9 @@ plcguard/
                  enclosing-condition contexts for every expression
   rules.py       8 static rules
   taxonomy.py    vulnerability classes, CWE mapping, Finding record
+  llm.py         Gemini / OpenRouter / NVIDIA client: disk cache, retry with backoff
+  llm_detector.py  prompt, JSON reply parsing, LLM and hybrid detectors
+  tracking.py    run manifests, results/runs.jsonl, SUMMARY.md
   evaluate.py    per-type P/R/F1, file-level and line-level scoring
   obfuscate.py   semantics-preserving variable renaming
 dataset/         labeled .st programs (see dataset/README.md)

@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 3, \"variable\": \"v3\", \"explanation\": \"Boiler trip threshold stored in Modbus holding register %MW20 (network-writable) instead of a constant, allowing unauthorized modification of safety setpoint.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 16, \"variable\": \"v4\", \"explanation\": \"Actuator outputs v4 and v5 are energized based solely on trip logic without checking e-stop, pressure, or other safety interlocks.\"}]}"
+}

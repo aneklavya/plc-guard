@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"v3\", \"explanation\": \"Safety-critical trip threshold stored in Modbus holding register %MW20 writable by HMI/network instead of a constant.\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 11, \"variable\": \"v3\", \"explanation\": \"Network-writable register v3 used as trip threshold in comparison without any range validation.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 13, \"variable\": \"v2\", \"explanation\": \"Trip condition can be cleared by HMI command bit v2 without verifying that the process variable v1 has returned below threshold v3.\"}]}"
+}

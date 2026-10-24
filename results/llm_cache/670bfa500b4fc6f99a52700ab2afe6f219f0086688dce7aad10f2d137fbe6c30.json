@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 15, \"variable\": \"hmi_reset\", \"explanation\": \"Network-writable HMI command bit can reset the boiler safety trip state without physical interlock or authentication, allowing remote clearing of a safety-critical trip condition.\"}]}"
+}

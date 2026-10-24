@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"trip_pressure\", \"explanation\": \"Boiler trip pressure limit is stored in Modbus holding register %MW20 which is writable by HMI/network, allowing remote modification of a safety-critical setpoint.\"}]}"
+}

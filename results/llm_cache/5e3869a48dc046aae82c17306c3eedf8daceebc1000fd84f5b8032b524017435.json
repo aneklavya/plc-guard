@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 39, \"variable\": \"v5\", \"explanation\": \"Actuator v5 is energized in states 1 and 3 without requiring safety interlock v2 (physical input %IX0.0), while other actuators v6/v7 correctly require v2 AND NOT v4.\"}]}"
+}

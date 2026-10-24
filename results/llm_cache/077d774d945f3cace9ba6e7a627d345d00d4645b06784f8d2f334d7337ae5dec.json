@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 12, \"variable\": \"hmi_valve_sp\", \"explanation\": \"Network-writable Modbus register hmi_valve_sp drives analog output outlet_cmd without range validation.\"}]}"
+}

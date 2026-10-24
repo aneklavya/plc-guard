@@ -1,0 +1,7 @@
+{
+ "provider": "gemini",
+ "model": "gemini-3.5-flash",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\n  \"findings\": [\n    {\n      \"type\": \"MISSING_INTERLOCK\",\n      \"line\": 17,\n      \"variable\": \"pump_run\",\n      \"explanation\": \"The pump can be energized without checking safety interlocks such as the low level switch or motor overload.\"\n    }\n  ]\n}"
+}

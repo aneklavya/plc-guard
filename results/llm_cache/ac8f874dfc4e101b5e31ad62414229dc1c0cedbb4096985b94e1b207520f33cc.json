@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 11, \"variable\": \"v3\", \"explanation\": \"The analog output v3 (actuator setpoint) is set based only on HMI command v2 and recipe index v1 without verifying safety interlocks such as e-stop, pressure, or level limits.\"}]}"
+}

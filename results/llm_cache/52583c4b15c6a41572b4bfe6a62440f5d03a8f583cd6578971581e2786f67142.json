@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"DIV_BY_ZERO\", \"line\": 9, \"variable\": \"v2\", \"explanation\": \"Division by v2 (analog input %IW1) without a zero check; a zero flow reading causes a runtime divide-by-zero fault.\"}]}"
+}

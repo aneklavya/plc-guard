@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 12, \"variable\": \"outlet_cmd\", \"explanation\": \"Outlet valve actuator driven by HMI setpoint without low-level or e-stop interlock.\"}]}"
+}

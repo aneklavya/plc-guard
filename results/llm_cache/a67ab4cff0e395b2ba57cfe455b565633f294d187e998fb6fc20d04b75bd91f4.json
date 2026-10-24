@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"OOB_INDEX\", \"line\": 12, \"variable\": \"v1\", \"explanation\": \"Network-writable Modbus register %MW0 (v1) used as array index for v5 and v6 without bounds checking; arrays have bounds 0..4 but v1 is an unvalidated INT.\"}]}"
+}

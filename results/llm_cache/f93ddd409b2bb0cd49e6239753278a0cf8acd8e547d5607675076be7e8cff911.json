@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 12, \"variable\": \"v6\", \"explanation\": \"HMI command bits v1 and v2 directly set/reset internal state v6 without sequence enforcement, allowing arbitrary state forcing.\"}]}"
+}

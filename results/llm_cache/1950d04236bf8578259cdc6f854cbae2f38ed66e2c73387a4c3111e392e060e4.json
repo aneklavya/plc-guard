@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"v3\", \"explanation\": \"Safety-critical trip threshold stored in Modbus holding register %MW20 which is writable by any network client.\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 11, \"variable\": \"v3\", \"explanation\": \"Network-writable register v3 used as trip threshold without any range validation before comparison with sensor input v1.\"}]}"
+}

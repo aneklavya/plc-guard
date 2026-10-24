@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 14, \"variable\": \"v3\", \"explanation\": \"Actuator output v3 is energized based solely on process variables v1 and v2 without verifying safety interlocks (e-stop, high/low level, pressure, etc.).\"}]}"
+}

@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 15, \"variable\": \"v6\", \"explanation\": \"Internal counter v7 increments every scan cycle and unconditionally energizes actuator output v6 after 864000 scans, a hidden time-based trigger with no process interlocks.\"}]}"
+}

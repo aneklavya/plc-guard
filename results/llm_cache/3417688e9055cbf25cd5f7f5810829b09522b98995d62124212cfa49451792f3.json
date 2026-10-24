@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 14, \"variable\": \"dosing_cmd\", \"explanation\": \"Actuator dosing_cmd is driven without verifying safety interlocks (e-stop, pressure, level, etc.).\"}]}"
+}

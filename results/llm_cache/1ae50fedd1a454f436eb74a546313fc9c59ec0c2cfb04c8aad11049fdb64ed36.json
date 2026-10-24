@@ -1,0 +1,7 @@
+{
+ "provider": "gemini",
+ "model": "gemini-3.5-flash",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\n  \"findings\": [\n    {\n      \"type\": \"HARDCODED_CREDENTIAL\",\n      \"line\": 10,\n      \"variable\": \"hmi_pin\",\n      \"explanation\": \"A hardcoded PIN value (4711) is used directly in logic to grant access to maintenance mode.\"\n    }\n  ]\n}"
+}

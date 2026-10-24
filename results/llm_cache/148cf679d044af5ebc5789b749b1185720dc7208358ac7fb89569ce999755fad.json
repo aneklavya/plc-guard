@@ -1,0 +1,7 @@
+{
+ "provider": "gemini",
+ "model": "gemini-3.5-flash",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\n  \"findings\": [\n    {\n      \"type\": \"OOB_INDEX\",\n      \"line\": 12,\n      \"variable\": \"hmi_recipe_idx\",\n      \"explanation\": \"The array index hmi_recipe_idx is read directly from a network-writable Modbus register without checking if it falls within the array bounds of 0 to 4.\"\n    }\n  ]\n}"
+}

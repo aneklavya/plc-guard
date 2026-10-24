@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 17, \"variable\": \"pump_run\", \"explanation\": \"Pump output is energised solely from HMI-controlled latch without checking low_level_sw or motor_overload safety inputs.\"}]}"
+}

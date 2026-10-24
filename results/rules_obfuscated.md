@@ -24,3 +24,12 @@
 - `04_conveyor_vuln.st`: missed MISSING_INTERLOCK
 - `07_burner_sequence_vuln.st`: missed UNSAFE_STATE_TRANSITION
 - `08_boiler_trip_vuln.st`: missed UNPROTECTED_CRITICAL_VAR
+
+## Run
+
+- timestamp: `2026-10-24T04:07:07+00:00`
+- git_commit: `f90ac55`
+- git_dirty: `True`
+- dataset_hash: `98d73f944c19`
+- repeats: `1`
+- wall_seconds: `0.0`

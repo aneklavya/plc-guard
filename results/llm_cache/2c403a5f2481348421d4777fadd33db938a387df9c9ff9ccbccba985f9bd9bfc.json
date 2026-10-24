@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 14, \"variable\": \"v6\", \"explanation\": \"Internal counter v6 increments every scan cycle and after 864000 cycles (magic constant) triggers a hidden mode change that bypasses safety interlocks.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 16, \"variable\": \"v4\", \"explanation\": \"After the logic bomb triggers, output v4 is driven directly by HMI command v1 without checking safety interlocks v2 and v3.\"}]}"
+}

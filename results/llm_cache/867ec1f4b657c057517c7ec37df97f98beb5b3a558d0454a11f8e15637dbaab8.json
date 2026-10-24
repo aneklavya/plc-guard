@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 39, \"variable\": \"v5\", \"explanation\": \"Actuator v5 energizes in states 1 and 3 without requiring safety permissive v2, while v6/v7 require v2 and state 3 shutdown logic does not check v2.\"}]}"
+}

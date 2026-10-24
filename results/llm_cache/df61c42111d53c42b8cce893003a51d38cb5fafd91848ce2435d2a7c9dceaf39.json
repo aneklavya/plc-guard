@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"trip_pressure\", \"explanation\": \"Safety-critical boiler trip pressure limit stored in Modbus holding register %MW20 which is writable by HMI/network.\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 11, \"variable\": \"trip_pressure\", \"explanation\": \"Network-writable trip_pressure used in pressure comparison without any range validation (e.g., negative or excessive values).\"}]}"
+}

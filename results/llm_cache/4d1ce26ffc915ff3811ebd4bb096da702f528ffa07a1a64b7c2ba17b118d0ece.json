@@ -1,0 +1,7 @@
+{
+ "provider": "gemini",
+ "model": "gemini-3.5-flash",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\n  \"findings\": [\n    {\n      \"type\": \"LOGIC_BOMB\",\n      \"line\": 14,\n      \"variable\": \"cycle_count\",\n      \"explanation\": \"A counter condition triggers after 864000 cycles to override normal control logic, bypassing emergency stop and jam sensor safety interlocks.\"\n    }\n  ]\n}"
+}

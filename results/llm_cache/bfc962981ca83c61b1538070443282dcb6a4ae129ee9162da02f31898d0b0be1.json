@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"trip_pressure\", \"explanation\": \"Safety-critical trip pressure setpoint is stored in Modbus holding register %MW20 which is writable by the HMI/network, allowing an attacker to raise the trip threshold and prevent boiler shutdown on overpressure.\"}]}"
+}

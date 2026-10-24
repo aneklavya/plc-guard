@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 12, \"variable\": \"v4\", \"explanation\": \"Network-writable Modbus register v4 (%MW0) drives analog output v6 (%QW0) without range validation.\"}]}"
+}

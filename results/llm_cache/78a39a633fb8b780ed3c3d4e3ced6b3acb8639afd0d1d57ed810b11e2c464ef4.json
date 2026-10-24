@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 15, \"variable\": \"v6\", \"explanation\": \"Actuator output v6 is energized when internal free-running counter v7 exceeds hard-coded threshold 864000, creating a hidden time-based trigger unrelated to process logic.\"}]}"
+}

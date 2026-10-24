@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"OOB_INDEX\", \"line\": 12, \"variable\": \"v1\", \"explanation\": \"Modbus register %MW0 (v1) used as array index for v5 and v6 without bounds checking; arrays have bounds 0..4 but v1 can be any INT value.\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 12, \"variable\": \"v1\", \"explanation\": \"Unvalidated network-writable register %MW0 (v1) selects recipe values written directly to analog output %QW0 (v3).\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 11, \"variable\": \"v2\", \"explanation\": \"HMI command bit %QX1.0 (v2) enables actuator setpoint writes without checking any safety interlock (e-stop, limits, etc.).\"}]}"
+}

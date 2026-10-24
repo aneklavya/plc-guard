@@ -1,0 +1,7 @@
+{
+ "provider": "gemini",
+ "model": "gemini-3.5-flash",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"DIV_BY_ZERO\", \"line\": 9, \"variable\": \"flow_b\", \"explanation\": \"Division by analog input flow_b occurs without checking if it is zero, which can lead to a PLC runtime crash.\"}]}"
+}

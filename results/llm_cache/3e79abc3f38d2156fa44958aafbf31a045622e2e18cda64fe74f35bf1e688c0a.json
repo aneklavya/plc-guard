@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 14, \"variable\": \"dosing_cmd\", \"explanation\": \"The dosing command output is driven without checking safety interlocks such as e-stop, tank level, or overload conditions.\"}]}"
+}

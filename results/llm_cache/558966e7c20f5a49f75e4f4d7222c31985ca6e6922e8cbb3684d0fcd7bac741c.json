@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 17, \"variable\": \"v5\", \"explanation\": \"The pump actuator v5 is energized solely from HMI command bits v1/v2 without checking physical safety inputs v3/v4 (e-stop, pressure, level, etc.).\"}]}"
+}

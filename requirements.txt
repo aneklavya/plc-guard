@@ -1,2 +1,2 @@
-# Stage 1 uses only the Python standard library.
+# PLCGuard uses only the Python standard library (LLM calls go through urllib).
 pytest>=8

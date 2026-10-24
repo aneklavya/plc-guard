@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 17, \"variable\": \"v5\", \"explanation\": \"Actuator output v5 is driven solely by HMI command bits v1/v2 (%QX1.x) without any safety interlock from physical inputs v3/v4 (%IX0.x) which are declared but never used.\"}]}"
+}

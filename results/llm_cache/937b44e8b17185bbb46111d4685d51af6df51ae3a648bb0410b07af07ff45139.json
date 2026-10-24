@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 14, \"variable\": \"cycle_count\", \"explanation\": \"Cycle counter threshold 864000 triggers bypass of safety interlocks (estop, jam_sensor) and resets jam_alarm, overriding normal protective logic.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 16, \"variable\": \"conveyor_motor\", \"explanation\": \"Motor energized directly from HMI start bit without checking estop or jam_sensor when cycle_count exceeds threshold.\"}]}"
+}

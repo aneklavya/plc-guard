@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 28, \"variable\": \"hmi_advance\", \"explanation\": \"Network-writable HMI command bit can force a phase transition (green to yellow) bypassing the minimum green dwell time enforced by the timer.\"}]}"
+}

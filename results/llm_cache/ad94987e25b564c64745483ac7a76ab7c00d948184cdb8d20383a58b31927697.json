@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 15, \"variable\": \"v7\", \"explanation\": \"Free-running counter v7 triggers output v6 after a hard-coded threshold of 864000 scan cycles, a hidden time-based condition that could override normal operation.\"}]}"
+}

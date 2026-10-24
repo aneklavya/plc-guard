@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 25, \"variable\": \"v2\", \"explanation\": \"HMI-writable command bit v2 (%QX1.1) bypasses the 60-second safety timer v10.Q to force state transition from purge (state 1) to ignition (state 2).\"}]}"
+}
