@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 6, \"variable\": \"LAH_SP\", \"explanation\": \"High-level alarm setpoint is stored in Modbus holding register %MW50 writable by HMI/network instead of a constant.\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 20, \"variable\": \"LAH_SP\", \"explanation\": \"Network-writable LAH_SP used directly in alarm comparison without range validation.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 19, \"variable\": \"P501\", \"explanation\": \"Pump P501 energized without checking high-high level safety switch LSHH_501.\"}]}"
+}

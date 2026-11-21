@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 20, \"variable\": \"RESET_PB\", \"explanation\": \"After a fault (state 9), the press automatically restarts (state 1) when ESTOP_OK and GUARD_OK are restored without requiring the operator to press the RESET_PB, bypassing mandatory fault acknowledgment.\"}]}"
+}

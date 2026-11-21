@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 16, \"variable\": \"cycle_count\", \"explanation\": \"Hidden cycle counter triggers bypass of safety interlocks after 864000 cycles\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 18, \"variable\": \"conveyor_motor\", \"explanation\": \"Motor energized via hmi_start without estop or jam_sensor interlocks when cycle_count exceeds threshold\"}]}"
+}

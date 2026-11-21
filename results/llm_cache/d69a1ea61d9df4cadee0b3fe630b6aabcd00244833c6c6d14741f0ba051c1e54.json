@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 6, \"variable\": \"overspeed_rpm\", \"explanation\": \"Safety-critical overspeed trip setpoint stored in Modbus holding register %MW80, writable by HMI or any network client, allowing an attacker to raise the trip threshold and disable overspeed protection.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 18, \"variable\": \"STEAM_ADMIT\", \"explanation\": \"Steam admission valve energized solely by HMI command bit RUN_REQ (%QX1.0) and overspeed trip status, with no interlocks for emergency stop, low pressure, high vibration, or other process safety conditions.\"}]}"
+}

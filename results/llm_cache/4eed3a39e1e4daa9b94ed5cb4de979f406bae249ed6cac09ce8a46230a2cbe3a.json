@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 19, \"variable\": \"aux_cnt\", \"explanation\": \"A hidden 30-day timer (2592000 seconds) forces the booster output off regardless of process conditions, overriding normal demand/suction logic.\"}]}"
+}

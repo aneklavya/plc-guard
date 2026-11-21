@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 22, \"variable\": \"v3\", \"explanation\": \"Analog output %QW0 (v3) drives an actuator setpoint but is updated without verifying safety interlocks such as emergency stop, process limits, or overload conditions.\"}]}"
+}

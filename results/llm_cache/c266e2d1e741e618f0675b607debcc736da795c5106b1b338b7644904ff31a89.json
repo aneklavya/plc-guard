@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 20, \"variable\": \"STEAM_ADMIT\", \"explanation\": \"Steam admission valve energized by untrusted HMI command RUN_REQ with only overspeed trip interlock; no emergency stop, low pressure, or other safety condition checks.\"}]}"
+}

@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 19, \"variable\": \"aux_cnt\", \"explanation\": \"After 2,592,000 seconds (30 days) of runtime, the booster output is permanently forced FALSE regardless of demand or suction conditions, implementing a hidden time-based kill switch.\"}]}"
+}

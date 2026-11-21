@@ -197,6 +197,66 @@ def cmd_summary(args) -> int:
     return 0
 
 
+def _repair_client(args) -> LLMClient:
+    return LLMClient(args.provider, args.model or "", temperature=args.temperature,
+                     cache_dir=None if args.no_cache else DEFAULT_CACHE)
+
+
+def cmd_repair(args) -> int:
+    """Detect with the LLM, then repair; writes <name>.fixed.st next to --out-dir."""
+    from .repair import Repairer
+    client = _repair_client(args)
+    repairer = Repairer(client, max_attempts=args.max_attempts)
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    status = 0
+    for path in _st_files(args.paths):
+        source = path.read_text(encoding="utf-8")
+        findings = LLMDetector(client)(source)
+        if not findings:
+            print(f"{path}: no findings, nothing to repair")
+            continue
+        res = repairer.repair(source, findings)
+        print(f"{path}: {len(findings)} finding(s), {len(res.attempts)} attempt(s), "
+              f"{'FIXED' if res.fixed else 'NOT FIXED'}"
+              + (f" ({res.error})" if res.error else ""))
+        if res.final_code:
+            target = out_dir / (path.stem + ".fixed.st")
+            target.write_text(res.final_code, encoding="utf-8", newline="\n")
+            print(f"  wrote {target}")
+        status |= 0 if res.fixed else 1
+    return status
+
+
+def cmd_repair_eval(args) -> int:
+    from .repair import REPAIR_PROMPT_VERSION, Repairer, evaluate_repairs, repair_markdown
+    client = _repair_client(args)
+    programs = load_dataset(Path(args.dataset))
+    t0 = time.monotonic()
+    report = evaluate_repairs(programs, Repairer(client, max_attempts=args.max_attempts),
+                              args.workers)
+    config = {"task": "repair", "provider": client.provider, "model": client.model,
+              "temperature": client.temperature, "repair_prompt": REPAIR_PROMPT_VERSION,
+              "detection_prompt_for_check": "v1", "max_attempts": args.max_attempts,
+              "llm_calls": client.calls, "cache_hits": client.cache_hits,
+              "wall_seconds": round(time.monotonic() - t0, 1)}
+    report["run"] = manifest(config, Path(args.dataset))
+    slug = re.sub(r"[^A-Za-z0-9.]+", "-", client.model).strip("-")
+    out = Path(args.out)
+    (out / f"repair_{slug}.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    fixed_dir = out / "repairs" / slug
+    fixed_dir.mkdir(parents=True, exist_ok=True)
+    for r in report["programs"]:
+        if r["code"]:
+            (fixed_dir / r["file"].replace("_vuln.st", "_fixed.st")).write_text(
+                r["code"], encoding="utf-8", newline="\n")
+    md = repair_markdown(report, f"PLCGuard repair: {client.model}")
+    md += _run_markdown({"metrics": {"n": 1}, **report["run"]})
+    (out / f"repair_{slug}.md").write_text(md, encoding="utf-8")
+    print(md)
+    return 0
+
+
 def cmd_models(args) -> int:
     try:
         ids = LLMClient(args.provider, cache_dir=None).list_models()
@@ -248,6 +308,21 @@ def main(argv=None) -> int:
     sm.add_argument("--all-datasets", action="store_true",
                     help="include runs on earlier versions of the dataset")
     sm.set_defaults(func=cmd_summary)
+
+    rp = sub.add_parser("repair", help="detect with the LLM, then repair and verify")
+    rp.add_argument("paths", nargs="+")
+    _llm_args(rp)
+    rp.add_argument("--out-dir", default=".")
+    rp.add_argument("--max-attempts", type=int, default=3)
+    rp.set_defaults(func=cmd_repair)
+
+    re_ = sub.add_parser("repair-eval", help="repair every vulnerable dataset program")
+    _llm_args(re_)
+    re_.add_argument("--dataset", default=str(ROOT / "dataset"))
+    re_.add_argument("--out", default=str(ROOT / "results"))
+    re_.add_argument("--max-attempts", type=int, default=3)
+    re_.add_argument("--workers", type=int, default=1)
+    re_.set_defaults(func=cmd_repair_eval)
 
     md = sub.add_parser("models", help="list model ids an OpenAI-compatible provider serves")
     md.add_argument("--provider", choices=[k for k, v in PROVIDERS.items() if "base_url" in v],

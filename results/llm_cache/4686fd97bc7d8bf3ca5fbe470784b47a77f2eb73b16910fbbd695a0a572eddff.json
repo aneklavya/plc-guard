@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 6, \"variable\": \"overspeed_rpm\", \"explanation\": \"Safety-critical overspeed trip setpoint stored in Modbus holding register %MW80 which is writable by HMI/network instead of being a constant or protected parameter.\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 13, \"variable\": \"overspeed_rpm\", \"explanation\": \"Network-writable overspeed_rpm value used directly in comparison without range validation, allowing an attacker to disable overspeed protection or cause nuisance trips.\"}]}"
+}

@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 12, \"variable\": \"K1\", \"explanation\": \"Heater contactor K1 energizes based only on HEAT_ON and temperature < 1100 without requiring door closed (DOOR_CLS) or high temperature switch (TSH_901) safety interlocks.\"}]}"
+}

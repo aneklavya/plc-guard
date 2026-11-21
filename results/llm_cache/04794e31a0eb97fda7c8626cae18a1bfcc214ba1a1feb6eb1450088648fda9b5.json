@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 20, \"variable\": \"RESET_PB\", \"explanation\": \"Transition from fault state (9) to running state (1) does not require the reset pushbutton (RESET_PB) to be pressed, allowing automatic restart after fault clears without operator acknowledgment.\"}]}"
+}

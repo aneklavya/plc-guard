@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 11, \"variable\": \"v4\", \"explanation\": \"Dosing pump (v4) energized based only on flow and residual without safety interlocks (e-stop, tank level, pressure).\"}]}"
+}

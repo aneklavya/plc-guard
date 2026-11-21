@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 17, \"variable\": \"v2\", \"explanation\": \"HMI command bit v2 can reset the boiler trip (v5) without verifying that the process variable v1 has returned below the trip threshold v6, allowing actuators to be re-energised while the over-temperature condition persists.\"}]}"
+}

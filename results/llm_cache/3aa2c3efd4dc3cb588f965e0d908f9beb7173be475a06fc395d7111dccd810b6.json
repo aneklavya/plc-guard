@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 13, \"variable\": \"dose_sp\", \"explanation\": \"Network-writable Modbus register dose_sp (%MW10) is used without range checking to calculate pump_speed (%QW0), allowing an attacker to command arbitrary/unsafe pump speeds.\"}]}"
+}

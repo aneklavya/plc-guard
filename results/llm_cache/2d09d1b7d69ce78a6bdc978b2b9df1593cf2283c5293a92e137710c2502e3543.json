@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"OOB_INDEX\", \"line\": 14, \"variable\": \"hmi_recipe_idx\", \"explanation\": \"Network-writable register %MW0 (hmi_recipe_idx) used as array index without bounds check against recipe_temp[0..4].\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 14, \"variable\": \"hmi_recipe_idx\", \"explanation\": \"Unvalidated HMI-supplied index drives analog output %QW0 (temp_sp) via unchecked array lookup.\"}]}"
+}

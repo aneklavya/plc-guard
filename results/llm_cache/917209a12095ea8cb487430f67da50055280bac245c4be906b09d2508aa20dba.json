@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 12, \"variable\": \"chw_sp\", \"explanation\": \"Network-writable setpoint chw_sp (%MW90) is copied to sp_eff and used directly in the valve output calculation without any range check, allowing an attacker to drive CHW_VLV to arbitrary values.\"}]}"
+}

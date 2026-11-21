@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 16, \"variable\": \"door_closed\", \"explanation\": \"The door_closed safety sensor (%IX0.1) is declared but never used as an interlock condition for the door_unlock output, allowing the actuator to be energized without verifying the door is closed.\"}]}"
+}

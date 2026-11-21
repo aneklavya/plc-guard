@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 16, \"variable\": \"dosing_cmd\", \"explanation\": \"The dosing_cmd actuator setpoint is driven solely by flow ratio without checking any safety interlocks (e-stop, tank level, pressure, overload).\"}]}"
+}

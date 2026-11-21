@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 10, \"variable\": \"seq_step\", \"explanation\": \"Sequence step variable is stored in Modbus holding register %MW40, allowing network/HMI to force arbitrary state transitions and bypass safety interlocks (level, temperature).\"}]}"
+}

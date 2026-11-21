@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"HARDCODED_CREDENTIAL\", \"line\": 9, \"variable\": \"service_code\", \"explanation\": \"Hardcoded magic value 31337 used as service code to bypass safety guard via network-writable register.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 14, \"variable\": \"spindle\", \"explanation\": \"Spindle can be energized without guard closed when override is activated via network-writable hmi_code, bypassing safety interlock.\"}]}"
+}

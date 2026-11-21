@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 31, \"variable\": \"hmi_force_phase\", \"explanation\": \"HMI-writable register hmi_force_phase allows forcing the traffic light phase to any valid state (0-3) bypassing the normal timed sequence and required intermediate phases (e.g., yellow).\"}]}"
+}

@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 13, \"variable\": \"PSH_SP\", \"explanation\": \"Pressure high setpoint PSH_SP from network-writable register %MW30 used in trip comparison without range validation.\"}, {\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"PSH_SP\", \"explanation\": \"Safety-critical pressure trip setpoint PSH_SP stored in Modbus holding register %MW30 writable by HMI/network instead of a constant.\"}]}"
+}

@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"OOB_INDEX\", \"line\": 16, \"variable\": \"lane_req\", \"explanation\": \"Untrusted Modbus register lane_req used as array index without bounds checking, allowing out-of-bounds access to gate array.\"}]}"
+}

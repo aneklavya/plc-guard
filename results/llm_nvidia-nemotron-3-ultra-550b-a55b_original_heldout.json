@@ -1,0 +1,2834 @@
+{
+  "per_type": {
+    "DIV_BY_ZERO": {
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "HARDCODED_CREDENTIAL": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "INPUT_VALIDATION": {
+      "tp": 4,
+      "fp": 5,
+      "fn": 0,
+      "precision": 0.4444444444444444,
+      "recall": 1.0,
+      "f1": 0.6153846153846153
+    },
+    "LOGIC_BOMB": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "MISSING_INTERLOCK": {
+      "tp": 3,
+      "fp": 9,
+      "fn": 0,
+      "precision": 0.25,
+      "recall": 1.0,
+      "f1": 0.4
+    },
+    "OOB_INDEX": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "UNPROTECTED_CRITICAL_VAR": {
+      "tp": 3,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.6,
+      "recall": 1.0,
+      "f1": 0.7499999999999999
+    },
+    "UNSAFE_STATE_TRANSITION": {
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "micro": {
+    "tp": 22,
+    "fp": 16,
+    "fn": 0,
+    "precision": 0.5789473684210527,
+    "recall": 1.0,
+    "f1": 0.7333333333333334
+  },
+  "file_level": {
+    "vulnerable_files": 20,
+    "vulnerable_detected": 20,
+    "clean_files": 20,
+    "clean_flagged": 3
+  },
+  "localisation": {
+    "correct": 22,
+    "of_detected": 22
+  },
+  "parse_errors": 0,
+  "programs": [
+    {
+      "file": "11_chlorine_dosing_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 13,
+          "message": "Network-writable Modbus register dose_sp (%MW10) is multiplied by 10 and written directly to pump_speed (%QW0) without any range check, allowing an attacker to command excessive pump speed.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "dose_sp",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "11_chlorine_dosing_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "12_crane_hoist_vuln.st",
+      "expected": [
+        "MISSING_INTERLOCK"
+      ],
+      "predicted": [
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 12,
+          "message": "Upward motor output M201_UP energizes without checking top limit switch LS_TOP or motor overload OL_M201, allowing hoist to over-travel or run while overloaded.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "M201_UP",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "12_crane_hoist_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "13_compressor_trip_vuln.st",
+      "expected": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "missed": [],
+      "extra": [
+        "INPUT_VALIDATION"
+      ],
+      "findings": [
+        {
+          "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+          "line": 5,
+          "message": "High-pressure trip setpoint stored in Modbus holding register %MW30 (network-writable) instead of a constant, allowing anyone on the network to change the safety limit.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "PSH_SP",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 13,
+          "message": "Network-writable setpoint PSH_SP used directly in comparison without range validation, enabling an attacker to set an extreme value that disables or falsely triggers the compressor trip.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "PSH_SP",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "13_compressor_trip_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "14_door_access_vuln.st",
+      "expected": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "predicted": [
+        "HARDCODED_CREDENTIAL",
+        "INPUT_VALIDATION",
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [
+        "INPUT_VALIDATION",
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "HARDCODED_CREDENTIAL",
+          "line": 13,
+          "message": "Magic constant 2580 hard-coded as the valid PIN in the logic, creating a hardcoded credential that cannot be changed without recompiling.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "2580",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 13,
+          "message": "Network-writable Modbus register %MW5 used directly in authentication comparison without validation, allowing anyone on the network to write 2580 and unlock the door.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "keypad_entry",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 13,
+          "message": "Door closed sensor (%IX0.1) is declared but never checked before energizing door_unlock, allowing the door to be unlocked regardless of its physical state.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "door_closed",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "14_door_access_clean.st",
+      "expected": [],
+      "predicted": [
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 16,
+          "message": "The door_closed safety sensor (%IX0.1) is declared but never used as an interlock condition for the door_unlock output, allowing the actuator to be energized without verifying the door is closed.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "door_closed",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "15_reactor_steps_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION",
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "missed": [],
+      "extra": [
+        "INPUT_VALIDATION"
+      ],
+      "findings": [
+        {
+          "vuln_type": "UNSAFE_STATE_TRANSITION",
+          "line": 10,
+          "message": "State variable seq_step resides in Modbus register %MW40, enabling HMI or network attacker to force arbitrary state transitions bypassing sequence logic.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "seq_step",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 24,
+          "message": "Network-writable %MW40 (seq_step) drives outputs FILL_V, STEAM_V, DRAIN_V without range validation, allowing arbitrary valve actuation.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "seq_step",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "15_reactor_steps_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "16_booster_runtime_vuln.st",
+      "expected": [
+        "LOGIC_BOMB"
+      ],
+      "predicted": [
+        "LOGIC_BOMB"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "LOGIC_BOMB",
+          "line": 19,
+          "message": "After 2,592,000 seconds (30 days) of runtime, the booster output is permanently forced FALSE regardless of demand or suction conditions, implementing a hidden time-based kill switch.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "aux_cnt",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "16_booster_runtime_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "17_sorter_gates_vuln.st",
+      "expected": [
+        "OOB_INDEX"
+      ],
+      "predicted": [
+        "OOB_INDEX"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "OOB_INDEX",
+          "line": 16,
+          "message": "Network-writable Modbus register %MW2 (lane_req) used as array index without bounds checking against gate[1..4].",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "lane_req",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "17_sorter_gates_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "18_flow_average_vuln.st",
+      "expected": [
+        "DIV_BY_ZERO"
+      ],
+      "predicted": [
+        "DIV_BY_ZERO"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "DIV_BY_ZERO",
+          "line": 21,
+          "message": "Division by zero occurs when samples is zero (on startup or after reset) because the division executes unconditionally every scan.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "samples",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "18_flow_average_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "19_mixer_ramp_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION",
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "findings": [
+        {
+          "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+          "line": 5,
+          "message": "Safety-critical ramp rate parameter stored in Modbus holding register %MW8 writable by any network client instead of a constant or protected variable.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "ramp_rate",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 19,
+          "message": "Network-writable register %MW8 (ramp_rate) used directly in speed calculation without range check, allowing uncontrolled acceleration or overflow.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "ramp_rate",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 24,
+          "message": "VFD speed reference written without checking against MAX_SPEED constant (1450), allowing motor overspeed if ramp_rate or accumulated speed exceeds limit.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "vfd_ref",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "19_mixer_ramp_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "20_reservoir_fill_vuln.st",
+      "expected": [
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION",
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "missed": [],
+      "extra": [
+        "INPUT_VALIDATION"
+      ],
+      "findings": [
+        {
+          "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+          "line": 6,
+          "message": "High-level alarm setpoint is stored in Modbus holding register %MW50 writable by HMI/network instead of a constant.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "LAH_SP",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 19,
+          "message": "Pump P501 energized without checking high-high level safety switch LSHH_501.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "P501",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 20,
+          "message": "Network-writable LAH_SP used directly in alarm comparison without range validation.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "LAH_SP",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "20_reservoir_fill_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "21_furnace_heat_vuln.st",
+      "expected": [
+        "MISSING_INTERLOCK"
+      ],
+      "predicted": [
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 12,
+          "message": "Heating contactor K1 energizes without checking door closed (DOOR_CLS) or high temperature safety switch (TSH_901) interlocks.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "K1",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "21_furnace_heat_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "22_lift_station_vuln.st",
+      "expected": [
+        "DIV_BY_ZERO"
+      ],
+      "predicted": [
+        "DIV_BY_ZERO"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "DIV_BY_ZERO",
+          "line": 30,
+          "message": "n_avail can be zero when both P1_AVL and P2_AVL are false, causing a division-by-zero exception in the MOD operation.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "n_avail",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "22_lift_station_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "23_level_crossing_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "UNSAFE_STATE_TRANSITION",
+          "line": 19,
+          "message": "HMI-writable TEST_MODE (%QX1.0) forces state machine to idle (st:=0) at any time, bypassing the required TRAIN_CLR transition and potentially raising barriers while a train is present.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "TEST_MODE",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "23_level_crossing_clean.st",
+      "expected": [],
+      "predicted": [
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 22,
+          "message": "HMI-writable TEST_MODE bit can energize safety-critical LIGHTS output without train presence, bypassing the train-detection interlock with no authorization or physical key-switch protection.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "TEST_MODE",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "24_kiln_profile_vuln.st",
+      "expected": [
+        "OOB_INDEX"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION",
+        "OOB_INDEX"
+      ],
+      "missed": [],
+      "extra": [
+        "INPUT_VALIDATION"
+      ],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 4,
+          "message": "Network-writable register %MW60 drives loop iteration count and array index without any range validation.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "n_steps",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "OOB_INDEX",
+          "line": 13,
+          "message": "Loop upper bound n_steps from untrusted %MW60 is used to index profile[0..9] without bounds checking, allowing out-of-bounds writes when n_steps > 9.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "n_steps",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "24_kiln_profile_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "25_spindle_guard_vuln.st",
+      "expected": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "predicted": [
+        "HARDCODED_CREDENTIAL",
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "HARDCODED_CREDENTIAL",
+          "line": 9,
+          "message": "Hardcoded magic value 31337 used as service code to bypass safety guard via network-writable register.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "service_code",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 14,
+          "message": "Spindle can be energized without guard closed when override is activated via network-writable hmi_code, bypassing safety interlock.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "spindle",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "25_spindle_guard_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "26_turbine_overspeed_vuln.st",
+      "expected": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "predicted": [
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+          "line": 6,
+          "message": "Safety-critical overspeed trip setpoint stored in Modbus holding register %MW80, writable by HMI or any network client, allowing an attacker to raise the trip threshold and disable overspeed protection.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "overspeed_rpm",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 18,
+          "message": "Steam admission valve energized solely by HMI command bit RUN_REQ (%QX1.0) and overspeed trip status, with no interlocks for emergency stop, low pressure, high vibration, or other process safety conditions.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "STEAM_ADMIT",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "26_turbine_overspeed_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "27_chiller_valve_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION",
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "findings": [
+        {
+          "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+          "line": 4,
+          "message": "Critical control setpoint chw_sp resides in Modbus holding register %MW90, writable by any network client, allowing unauthorized modification of the chiller control target.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "chw_sp",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 12,
+          "message": "Network-writable setpoint chw_sp (%MW90) is copied to sp_eff and used in control calculation without any range validation before driving actuator output CHW_VLV.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "chw_sp",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 14,
+          "message": "Valve actuator output CHW_VLV is driven purely by temperature error with no safety interlocks (e-stop, valve position limits, high/low temperature trips) to prevent unsafe actuation.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "CHW_VLV",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "27_chiller_valve_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "28_acid_batches_vuln.st",
+      "expected": [
+        "LOGIC_BOMB"
+      ],
+      "predicted": [
+        "LOGIC_BOMB",
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 18,
+          "message": "The acid dosing output is energized continuously without any safety interlock checks (e-stop, level, pressure).",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "acid_ml",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "LOGIC_BOMB",
+          "line": 19,
+          "message": "A hidden counter condition at batch 777 quadruples the acid dose, overriding normal control logic.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "batch_cnt",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "28_acid_batches_clean.st",
+      "expected": [],
+      "predicted": [
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 22,
+          "message": "Acid dosing actuator setpoint is driven unconditionally every scan without checking any safety interlocks (e-stop, tank level, pressure, temperature, etc.).",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "acid_ml",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "29_press_restart_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "UNSAFE_STATE_TRANSITION",
+          "line": 20,
+          "message": "Fault state (9) transitions directly to running state (1) when ESTOP_OK and GUARD_OK are restored, without requiring RESET_PB acknowledgment or START_PB press, enabling automatic restart after safety fault.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "state",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "29_press_restart_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "30_distribution_pumps_vuln.st",
+      "expected": [
+        "DIV_BY_ZERO",
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "DIV_BY_ZERO",
+        "INPUT_VALIDATION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "DIV_BY_ZERO",
+          "line": 18,
+          "message": "Variable 'running' can be zero when neither P1_RUN nor P2_RUN is true, causing division by zero in PER_PUMP calculation.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "running",
+          "source": "llm"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 19,
+          "message": "Network-writable register flow_sp (%MW110) is multiplied by 16 and written directly to VFD outputs without any range or sanity check, allowing unsafe actuator setpoints.",
+          "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+          "variable": "flow_sp",
+          "source": "llm"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "30_distribution_pumps_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    }
+  ],
+  "run": {
+    "timestamp": "2026-11-21T09:02:27+00:00",
+    "git_commit": "2b30acf",
+    "git_dirty": true,
+    "python": "3.13.0",
+    "dataset_hash": "11c18df898d2",
+    "detector": "llm",
+    "variant": "original",
+    "split": "heldout",
+    "line_tolerance": 1,
+    "repeats": 3,
+    "programs": 40,
+    "clean_files": 20,
+    "wall_seconds": 1111.5,
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3-ultra-550b-a55b",
+    "temperature": 0.0,
+    "prompt_version": "v1",
+    "prompt_hash": "aa71ce447ba6",
+    "llm_calls": 160,
+    "cache_hits": 20,
+    "metrics": {
+      "n": 3,
+      "precision": {
+        "mean": 0.5540935672514621,
+        "std": 0.04689770448054224,
+        "values": [
+          0.5789473684210527,
+          0.5,
+          0.5833333333333334
+        ]
+      },
+      "recall": {
+        "mean": 0.9696969696969697,
+        "std": 0.026243194054073875,
+        "values": [
+          1.0,
+          0.9545454545454546,
+          0.9545454545454546
+        ]
+      },
+      "f1": {
+        "mean": 0.704573754789272,
+        "std": 0.04210139918767186,
+        "values": [
+          0.7333333333333334,
+          0.65625,
+          0.7241379310344828
+        ]
+      },
+      "clean_flagged": {
+        "mean": 4.333333333333333,
+        "std": 1.5275252316519468,
+        "values": [
+          3,
+          6,
+          4
+        ]
+      },
+      "errors": {
+        "mean": 0.0,
+        "std": 0.0,
+        "values": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "repeat_reports": [
+    {
+      "per_type": {
+        "DIV_BY_ZERO": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "HARDCODED_CREDENTIAL": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "INPUT_VALIDATION": {
+          "tp": 4,
+          "fp": 7,
+          "fn": 0,
+          "precision": 0.36363636363636365,
+          "recall": 1.0,
+          "f1": 0.5333333333333333
+        },
+        "LOGIC_BOMB": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "MISSING_INTERLOCK": {
+          "tp": 3,
+          "fp": 10,
+          "fn": 0,
+          "precision": 0.23076923076923078,
+          "recall": 1.0,
+          "f1": 0.375
+        },
+        "OOB_INDEX": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "UNPROTECTED_CRITICAL_VAR": {
+          "tp": 3,
+          "fp": 4,
+          "fn": 0,
+          "precision": 0.42857142857142855,
+          "recall": 1.0,
+          "f1": 0.6
+        },
+        "UNSAFE_STATE_TRANSITION": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8
+        }
+      },
+      "micro": {
+        "tp": 21,
+        "fp": 21,
+        "fn": 1,
+        "precision": 0.5,
+        "recall": 0.9545454545454546,
+        "f1": 0.65625
+      },
+      "file_level": {
+        "vulnerable_files": 20,
+        "vulnerable_detected": 20,
+        "clean_files": 20,
+        "clean_flagged": 6
+      },
+      "localisation": {
+        "correct": 21,
+        "of_detected": 21
+      },
+      "parse_errors": 0,
+      "programs": [
+        {
+          "file": "11_chlorine_dosing_vuln.st",
+          "expected": [
+            "INPUT_VALIDATION"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Network-writable Modbus register dose_sp (%MW10) is used directly to calculate pump_speed output without any range validation, allowing uncontrolled actuator setpoints.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "dose_sp",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "11_chlorine_dosing_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "12_crane_hoist_vuln.st",
+          "expected": [
+            "MISSING_INTERLOCK"
+          ],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 12,
+              "message": "Upward motor output M201_UP energizes without checking top limit switch LS_TOP or motor overload OL_M201, allowing over-travel and operation during overload.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "M201_UP",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "12_crane_hoist_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "13_compressor_trip_vuln.st",
+          "expected": [
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 5,
+              "message": "Safety-critical pressure trip setpoint PSH_SP stored in Modbus holding register %MW30 writable by HMI/network instead of a constant.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "PSH_SP",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Pressure high setpoint PSH_SP from network-writable register %MW30 used in trip comparison without range validation.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "PSH_SP",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "13_compressor_trip_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "14_door_access_vuln.st",
+          "expected": [
+            "HARDCODED_CREDENTIAL"
+          ],
+          "predicted": [
+            "HARDCODED_CREDENTIAL",
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "HARDCODED_CREDENTIAL",
+              "line": 13,
+              "message": "The access grant condition uses a hardcoded magic value 2580 as a PIN credential in the logic.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "keypad_entry",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 13,
+              "message": "The door_closed safety sensor is declared but never checked before energizing the door_unlock actuator.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "door_closed",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "14_door_access_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 16,
+              "message": "Door unlock actuator energized without verifying door_closed safety interlock input.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "door_unlock",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "15_reactor_steps_vuln.st",
+          "expected": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNSAFE_STATE_TRANSITION",
+              "line": 10,
+              "message": "State variable seq_step resides in Modbus register %MW40, writable by HMI/network, allowing arbitrary state jumps that bypass safety interlocks (LSH_101, TT_101, AGIT_RUN).",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "seq_step",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Network-writable seq_step used directly in CASE statement and output assignments without range check, enabling invalid step values to drive actuators.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "seq_step",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "15_reactor_steps_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 28,
+              "message": "The steam valve is energized based solely on sequence step and agitator run status without independent high-temperature, high-pressure, or emergency stop interlocks.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "STEAM_V",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "16_booster_runtime_vuln.st",
+          "expected": [
+            "LOGIC_BOMB"
+          ],
+          "predicted": [
+            "LOGIC_BOMB"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "LOGIC_BOMB",
+              "line": 19,
+              "message": "Hidden 30-day runtime counter (2592000 seconds) forces booster output OFF regardless of demand or safety interlocks, overriding normal control logic.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "aux_cnt",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "16_booster_runtime_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "17_sorter_gates_vuln.st",
+          "expected": [
+            "OOB_INDEX"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "OOB_INDEX"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION"
+          ],
+          "findings": [
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 16,
+              "message": "Network-writable Modbus register %MW2 (lane_req) used as array index without range validation, allowing arbitrary memory access.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "lane_req",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "OOB_INDEX",
+              "line": 16,
+              "message": "Array gate[1..4] indexed with unvalidated INT variable lane_req, enabling out-of-bounds write when value is outside 1..4.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "lane_req",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "17_sorter_gates_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "18_flow_average_vuln.st",
+          "expected": [
+            "DIV_BY_ZERO"
+          ],
+          "predicted": [
+            "DIV_BY_ZERO"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "DIV_BY_ZERO",
+              "line": 21,
+              "message": "Division by 'samples' which is zero on first scan and after every reset until the first timer pulse, causing a runtime exception.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "samples",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "18_flow_average_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "19_mixer_ramp_vuln.st",
+          "expected": [
+            "INPUT_VALIDATION"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 5,
+              "message": "Critical acceleration parameter ramp_rate resides in Modbus holding register %MW8 writable by any network client instead of being a constant or protected setpoint.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "ramp_rate",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 19,
+              "message": "Network-writable ramp_rate (%MW8) added to speed without range check; speed accumulates unbounded and is written to vfd_ref output despite MAX_SPEED constant being defined but never enforced.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "ramp_rate",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "19_mixer_ramp_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "20_reservoir_fill_vuln.st",
+          "expected": [
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 6,
+              "message": "Safety-critical high-level alarm setpoint stored in network-writable Modbus register %MW50 instead of a constant, allowing remote modification of trip point.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "LAH_SP",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 19,
+              "message": "Pump P501 energized based only on P501_AUTO and call_fill without interlocking against high-high level switch LSHH_501, permitting overfill when safety switch is tripped.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "P501",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 20,
+              "message": "Network-writable Modbus register LAH_SP (%MW50) used as alarm setpoint without range validation, allowing attacker to disable alarm (set >32767) or cause false trips (set < -32768).",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "LAH_SP",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "20_reservoir_fill_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "21_furnace_heat_vuln.st",
+          "expected": [
+            "MISSING_INTERLOCK"
+          ],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 12,
+              "message": "Heater contactor K1 energizes based only on HEAT_ON and temperature < 1100 without requiring door closed (DOOR_CLS) or high temperature switch (TSH_901) safety interlocks.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "K1",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "21_furnace_heat_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "22_lift_station_vuln.st",
+          "expected": [
+            "DIV_BY_ZERO"
+          ],
+          "predicted": [
+            "DIV_BY_ZERO"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "DIV_BY_ZERO",
+              "line": 30,
+              "message": "n_avail can be zero when both P1_AVL and P2_AVL are FALSE, causing division by zero in the MOD operation.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "n_avail",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "22_lift_station_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "23_level_crossing_vuln.st",
+          "expected": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION"
+          ],
+          "findings": [
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 19,
+              "message": "Network-writable HMI command bit TEST_MODE directly overwrites the state variable without any validation or range checking.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "TEST_MODE",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "UNSAFE_STATE_TRANSITION",
+              "line": 19,
+              "message": "TEST_MODE can force the state machine to idle (0) from any state, bypassing the required TRAIN_CLR safety condition.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "st",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "23_level_crossing_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "24_kiln_profile_vuln.st",
+          "expected": [
+            "OOB_INDEX"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "OOB_INDEX",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 4,
+              "message": "Critical loop limit n_steps stored in Modbus register %MW60 writable by any network client instead of a constant.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "n_steps",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Network-writable register %MW60 (n_steps) used as loop bound without range validation.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "n_steps",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "OOB_INDEX",
+              "line": 14,
+              "message": "Array profile[0..9] indexed by i up to n_steps with no bounds check; n_steps > 9 causes out-of-bounds write.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "profile",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "24_kiln_profile_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "25_spindle_guard_vuln.st",
+          "expected": [
+            "HARDCODED_CREDENTIAL"
+          ],
+          "predicted": [
+            "HARDCODED_CREDENTIAL",
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "HARDCODED_CREDENTIAL",
+              "line": 9,
+              "message": "Magic constant 31337 acts as a hardcoded password that enables the safety override when written to the network-accessible register %MW70.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "service_code",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 14,
+              "message": "The guard_closed safety interlock can be bypassed by setting hmi_code (%MW70) to the service_code, allowing the spindle to run with the guard open via a network write.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "spindle",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "25_spindle_guard_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "26_turbine_overspeed_vuln.st",
+          "expected": [
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 6,
+              "message": "Safety-critical overspeed trip setpoint stored in Modbus holding register %MW80 which is writable by HMI/network instead of being a constant or protected parameter.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "overspeed_rpm",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Network-writable overspeed_rpm value used directly in comparison without range validation, allowing an attacker to disable overspeed protection or cause nuisance trips.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "overspeed_rpm",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "26_turbine_overspeed_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 20,
+              "message": "Steam admission valve energized by untrusted HMI command RUN_REQ with only overspeed trip interlock; no emergency stop, low pressure, or other safety condition checks.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "STEAM_ADMIT",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "27_chiller_valve_vuln.st",
+          "expected": [
+            "INPUT_VALIDATION"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 4,
+              "message": "Safety-critical chilled water temperature setpoint is stored in Modbus holding register %MW90 which is writable by any network client instead of being a protected constant.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "chw_sp",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 12,
+              "message": "Network-writable setpoint chw_sp from %MW90 is copied to sp_eff and used in control calculation without any range validation before driving the valve output.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "chw_sp",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 14,
+              "message": "Valve actuator output CHW_VLV is energized based solely on proportional error with no safety interlock checks (e-stop, temperature limits, pressure trips) in the logic.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "CHW_VLV",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "27_chiller_valve_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 14,
+              "message": "The chiller valve actuator is driven solely by temperature error without any safety interlock checks (e-stop, pressure, flow, overload).",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "CHW_VLV",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "28_acid_batches_vuln.st",
+          "expected": [
+            "LOGIC_BOMB"
+          ],
+          "predicted": [
+            "LOGIC_BOMB"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "LOGIC_BOMB",
+              "line": 19,
+              "message": "A hidden counter condition (batch_cnt = 777) quadruples the acid dose, overriding normal control logic after a specific number of batches.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "batch_cnt",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "28_acid_batches_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 22,
+              "message": "Acid dosing actuator setpoint is driven unconditionally every scan without checking safety interlocks (e-stop, tank level, pressure, etc.).",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "acid_ml",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "29_press_restart_vuln.st",
+          "expected": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 20,
+              "message": "After a fault (state 9), the press automatically restarts (state 1) when ESTOP_OK and GUARD_OK are restored without requiring the operator to press the RESET_PB, bypassing mandatory fault acknowledgment.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "RESET_PB",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "29_press_restart_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "30_distribution_pumps_vuln.st",
+          "expected": [
+            "DIV_BY_ZERO",
+            "INPUT_VALIDATION"
+          ],
+          "predicted": [
+            "DIV_BY_ZERO",
+            "INPUT_VALIDATION",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 6,
+              "message": "Critical flow setpoint stored in Modbus holding register %MW110 writable by anyone on the network instead of a constant or protected parameter",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "flow_sp",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "DIV_BY_ZERO",
+              "line": 18,
+              "message": "Division by zero when no pumps are running (running=0) because neither P1_RUN nor P2_RUN is true",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "running",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 19,
+              "message": "Network-writable flow setpoint from %MW110 used without range check before scaling to VFD outputs at %QW0 and %QW1",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "flow_sp",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "30_distribution_pumps_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 25,
+              "message": "VFD speed references are written to analog outputs without verifying safety interlocks (e-stop, pressure, level, overload) or pump ready status.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "VFD1_REF",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        }
+      ]
+    },
+    {
+      "per_type": {
+        "DIV_BY_ZERO": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "HARDCODED_CREDENTIAL": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "INPUT_VALIDATION": {
+          "tp": 4,
+          "fp": 4,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666
+        },
+        "LOGIC_BOMB": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "MISSING_INTERLOCK": {
+          "tp": 3,
+          "fp": 9,
+          "fn": 0,
+          "precision": 0.25,
+          "recall": 1.0,
+          "f1": 0.4
+        },
+        "OOB_INDEX": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "UNPROTECTED_CRITICAL_VAR": {
+          "tp": 3,
+          "fp": 2,
+          "fn": 0,
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.7499999999999999
+        },
+        "UNSAFE_STATE_TRANSITION": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8
+        }
+      },
+      "micro": {
+        "tp": 21,
+        "fp": 15,
+        "fn": 1,
+        "precision": 0.5833333333333334,
+        "recall": 0.9545454545454546,
+        "f1": 0.7241379310344828
+      },
+      "file_level": {
+        "vulnerable_files": 20,
+        "vulnerable_detected": 20,
+        "clean_files": 20,
+        "clean_flagged": 4
+      },
+      "localisation": {
+        "correct": 21,
+        "of_detected": 21
+      },
+      "parse_errors": 0,
+      "programs": [
+        {
+          "file": "11_chlorine_dosing_vuln.st",
+          "expected": [
+            "INPUT_VALIDATION"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Network-writable Modbus register dose_sp (%MW10) is used without range checking to calculate pump_speed (%QW0), allowing an attacker to command arbitrary/unsafe pump speeds.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "dose_sp",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "11_chlorine_dosing_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "12_crane_hoist_vuln.st",
+          "expected": [
+            "MISSING_INTERLOCK"
+          ],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 12,
+              "message": "Upward motor output M201_UP energizes without checking top limit switch LS_TOP or motor overload OL_M201, allowing over-travel and operation under fault.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "M201_UP",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "12_crane_hoist_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "13_compressor_trip_vuln.st",
+          "expected": [
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION",
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 5,
+              "message": "Safety-critical high-pressure trip setpoint stored in Modbus holding register %MW30 writable by HMI/network instead of a constant.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "PSH_SP",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Network-writable trip setpoint PSH_SP used in comparison without any range validation, allowing arbitrary trip thresholds.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "PSH_SP",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 18,
+              "message": "Compressor output K301 energized based only on START_CMD and pressure trip, with no interlock for e-stop, overload, or other safety conditions.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "K301",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "13_compressor_trip_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 20,
+              "message": "Compressor contactor K301 is energized with only a high-pressure trip interlock; safety conditions such as emergency stop, motor overload, low oil pressure, or low suction pressure are not checked in this logic.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "K301",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "14_door_access_vuln.st",
+          "expected": [
+            "HARDCODED_CREDENTIAL"
+          ],
+          "predicted": [
+            "HARDCODED_CREDENTIAL",
+            "INPUT_VALIDATION",
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION",
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 5,
+              "message": "Access code verification uses network-writable Modbus register %MW5 allowing remote authentication bypass.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "keypad_entry",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "HARDCODED_CREDENTIAL",
+              "line": 13,
+              "message": "Hardcoded PIN 2580 used for door access authentication.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "2580",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Unvalidated network-writable register %MW5 directly controls door unlock logic without authentication safeguards.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "keypad_entry",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 15,
+              "message": "Door closed sensor %IX0.1 is declared but not used as safety interlock in unlock logic.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "door_closed",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "14_door_access_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 16,
+              "message": "The door_unlock actuator is energized without checking the door_closed safety interlock input.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "door_closed",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "15_reactor_steps_vuln.st",
+          "expected": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "predicted": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "UNSAFE_STATE_TRANSITION",
+              "line": 10,
+              "message": "Sequence step variable is stored in Modbus holding register %MW40, allowing network/HMI to force arbitrary state transitions and bypass safety interlocks (level, temperature).",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "seq_step",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "15_reactor_steps_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "16_booster_runtime_vuln.st",
+          "expected": [
+            "LOGIC_BOMB"
+          ],
+          "predicted": [
+            "LOGIC_BOMB"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "LOGIC_BOMB",
+              "line": 19,
+              "message": "A hidden 30-day timer (2592000 seconds) forces the booster output off regardless of process conditions, overriding normal demand/suction logic.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "aux_cnt",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "16_booster_runtime_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "17_sorter_gates_vuln.st",
+          "expected": [
+            "OOB_INDEX"
+          ],
+          "predicted": [
+            "OOB_INDEX"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "OOB_INDEX",
+              "line": 16,
+              "message": "Untrusted Modbus register lane_req used as array index without bounds checking, allowing out-of-bounds access to gate array.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "lane_req",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "17_sorter_gates_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "18_flow_average_vuln.st",
+          "expected": [
+            "DIV_BY_ZERO"
+          ],
+          "predicted": [
+            "DIV_BY_ZERO"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "DIV_BY_ZERO",
+              "line": 21,
+              "message": "Division by 'samples' occurs every scan without a guard; on first scan and after reset 'samples' is zero causing a divide-by-zero fault.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "samples",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "18_flow_average_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "19_mixer_ramp_vuln.st",
+          "expected": [
+            "INPUT_VALIDATION"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 19,
+              "message": "Network-writable ramp_rate (%MW8) is added to speed without range checking, allowing uncontrolled VFD reference output.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "ramp_rate",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "19_mixer_ramp_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "20_reservoir_fill_vuln.st",
+          "expected": [
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "MISSING_INTERLOCK",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 6,
+              "message": "High-level alarm setpoint stored in Modbus holding register %MW50, writable by HMI/network without write protection.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "LAH_SP",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 19,
+              "message": "Pump P501 energized without checking high-high level switch LSHH_501, bypassing critical safety interlock.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "P501",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 20,
+              "message": "Network-writable LAH_SP used directly in comparison without range check, allowing arbitrary alarm threshold.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "LAH_SP",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "20_reservoir_fill_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "21_furnace_heat_vuln.st",
+          "expected": [
+            "MISSING_INTERLOCK"
+          ],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 12,
+              "message": "Heater contactor K1 energized via HEAT_ON without requiring door closed (DOOR_CLS) or high-temperature switch (TSH_901) safety interlocks.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "K1",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "21_furnace_heat_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "22_lift_station_vuln.st",
+          "expected": [
+            "DIV_BY_ZERO"
+          ],
+          "predicted": [
+            "DIV_BY_ZERO"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "DIV_BY_ZERO",
+              "line": 30,
+              "message": "n_avail can be zero when both P1_AVL and P2_AVL are false, causing a division-by-zero error in the MOD operation.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "n_avail",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "22_lift_station_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "23_level_crossing_vuln.st",
+          "expected": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "predicted": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "UNSAFE_STATE_TRANSITION",
+              "line": 19,
+              "message": "HMI-writable TEST_MODE (%QX1.0) unconditionally forces state to 0 (clear), overriding the safety logic that requires TRAIN_CLR before raising the barrier.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "TEST_MODE",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "23_level_crossing_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "24_kiln_profile_vuln.st",
+          "expected": [
+            "OOB_INDEX"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION",
+            "OOB_INDEX",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [
+            "INPUT_VALIDATION",
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 4,
+              "message": "Safety-critical profile length parameter n_steps stored in Modbus holding register %MW60 writable by HMI/network instead of being a constant or protected.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "n_steps",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 13,
+              "message": "Value from network-writable register %MW60 used directly as loop limit and array index without any range validation.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "n_steps",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "OOB_INDEX",
+              "line": 13,
+              "message": "Loop upper bound n_steps from untrusted %MW60 used without bounds check against profile array size 0..9, allowing out-of-bounds writes when n_steps > 9.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "n_steps",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "24_kiln_profile_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "25_spindle_guard_vuln.st",
+          "expected": [
+            "HARDCODED_CREDENTIAL"
+          ],
+          "predicted": [
+            "HARDCODED_CREDENTIAL",
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "HARDCODED_CREDENTIAL",
+              "line": 9,
+              "message": "Hardcoded magic value 31337 acts as a password to bypass the guard interlock via network-writable register %MW70.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "service_code",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 14,
+              "message": "Spindle can be energized with guard open when override is triggered by a network-writable Modbus register, bypassing the safety interlock.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "spindle",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "25_spindle_guard_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "26_turbine_overspeed_vuln.st",
+          "expected": [
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "predicted": [
+            "UNPROTECTED_CRITICAL_VAR"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+              "line": 6,
+              "message": "The turbine overspeed trip setpoint is stored in Modbus holding register %MW80 which is writable by the HMI or any network node, allowing an attacker to raise the trip point above the sensor range or lower it to cause nuisance trips.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "overspeed_rpm",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "26_turbine_overspeed_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "27_chiller_valve_vuln.st",
+          "expected": [
+            "INPUT_VALIDATION"
+          ],
+          "predicted": [
+            "INPUT_VALIDATION"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 12,
+              "message": "Network-writable setpoint chw_sp (%MW90) is copied to sp_eff and used directly in the valve output calculation without any range check, allowing an attacker to drive CHW_VLV to arbitrary values.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "chw_sp",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "27_chiller_valve_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "28_acid_batches_vuln.st",
+          "expected": [
+            "LOGIC_BOMB"
+          ],
+          "predicted": [
+            "LOGIC_BOMB",
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 18,
+              "message": "Acid pump output driven without any safety interlock checks (e-stop, level, pressure).",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "acid_ml",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "LOGIC_BOMB",
+              "line": 19,
+              "message": "Magic constant 777 in batch counter triggers hidden 4x acid overdose logic bomb.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "batch_cnt",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "28_acid_batches_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 22,
+              "message": "Acid dosing actuator receives a constant setpoint every scan cycle without any safety interlock checks (e-stop, tank level, pressure, temperature, or batch permissive).",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "acid_ml",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "29_press_restart_vuln.st",
+          "expected": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [
+            "UNSAFE_STATE_TRANSITION"
+          ],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 20,
+              "message": "Transition from fault state (9) to running state (1) does not require the reset pushbutton (RESET_PB) to be pressed, allowing automatic restart after fault clears without operator acknowledgment.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "RESET_PB",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "29_press_restart_clean.st",
+          "expected": [],
+          "predicted": [],
+          "missed": [],
+          "extra": [],
+          "findings": [],
+          "error": null
+        },
+        {
+          "file": "30_distribution_pumps_vuln.st",
+          "expected": [
+            "DIV_BY_ZERO",
+            "INPUT_VALIDATION"
+          ],
+          "predicted": [
+            "DIV_BY_ZERO",
+            "INPUT_VALIDATION"
+          ],
+          "missed": [],
+          "extra": [],
+          "findings": [
+            {
+              "vuln_type": "DIV_BY_ZERO",
+              "line": 18,
+              "message": "Variable 'running' can be zero when both pumps are stopped, causing division by zero in PER_PUMP calculation.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "running",
+              "source": "llm"
+            },
+            {
+              "vuln_type": "INPUT_VALIDATION",
+              "line": 19,
+              "message": "Network-writable setpoint flow_sp (%MW110) is used without range checks to drive VFD analog outputs VFD1_REF and VFD2_REF.",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "flow_sp",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        },
+        {
+          "file": "30_distribution_pumps_clean.st",
+          "expected": [],
+          "predicted": [
+            "MISSING_INTERLOCK"
+          ],
+          "missed": [],
+          "extra": [
+            "MISSING_INTERLOCK"
+          ],
+          "findings": [
+            {
+              "vuln_type": "MISSING_INTERLOCK",
+              "line": 25,
+              "message": "VFD speed references are set from network-writable flow setpoint without verifying safety interlocks (e-stop, pressure, level).",
+              "rule": "nvidia:nvidia/nemotron-3-ultra-550b-a55b",
+              "variable": "VFD1_REF",
+              "source": "llm"
+            }
+          ],
+          "error": null
+        }
+      ]
+    }
+  ]
+}

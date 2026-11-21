@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 13, \"variable\": \"trip_pressure\", \"explanation\": \"Network-writable trip_pressure (%MW20) used in safety comparison without range validation, allowing arbitrary threshold manipulation.\"}, {\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"trip_pressure\", \"explanation\": \"Safety-critical boiler trip pressure setpoint stored in Modbus holding register %MW20 writable by any network client instead of a constant or protected memory.\"}]}"
+}

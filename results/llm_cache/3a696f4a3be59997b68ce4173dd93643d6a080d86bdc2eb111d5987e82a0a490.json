@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 6, \"variable\": \"overspeed_rpm\", \"explanation\": \"The turbine overspeed trip setpoint is stored in Modbus holding register %MW80 which is writable by the HMI or any network node, allowing an attacker to raise the trip point above the sensor range or lower it to cause nuisance trips.\"}]}"
+}

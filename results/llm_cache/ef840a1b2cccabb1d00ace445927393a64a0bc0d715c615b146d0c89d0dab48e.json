@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 19, \"variable\": \"v3\", \"explanation\": \"Untrusted Modbus register %MW8 (v3) used as ramp increment without range validation before driving analog output %QW0.\"}, {\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"v3\", \"explanation\": \"Safety-critical ramp rate parameter stored in network-writable Modbus register %MW8 instead of a constant.\"}]}"
+}

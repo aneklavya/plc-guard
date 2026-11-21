@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 22, \"variable\": \"acid_ml\", \"explanation\": \"Acid dosing actuator setpoint is driven unconditionally every scan without checking safety interlocks (e-stop, tank level, pressure, etc.).\"}]}"
+}

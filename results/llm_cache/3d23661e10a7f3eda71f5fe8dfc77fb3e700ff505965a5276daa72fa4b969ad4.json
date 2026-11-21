@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 19, \"variable\": \"batch_cnt\", \"explanation\": \"A hidden counter condition at batch 777 quadruples the acid dose, overriding normal control logic.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 18, \"variable\": \"acid_ml\", \"explanation\": \"The acid dosing output is energized continuously without any safety interlock checks (e-stop, level, pressure).\"}]}"
+}

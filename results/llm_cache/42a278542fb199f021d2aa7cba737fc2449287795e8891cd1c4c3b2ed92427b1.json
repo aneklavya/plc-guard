@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 19, \"variable\": \"batch_cnt\", \"explanation\": \"A hidden counter condition (batch_cnt = 777) quadruples the acid dose, overriding normal control logic after a specific number of batches.\"}]}"
+}

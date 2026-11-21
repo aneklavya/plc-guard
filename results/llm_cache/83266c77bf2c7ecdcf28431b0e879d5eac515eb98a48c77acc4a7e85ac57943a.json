@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 28, \"variable\": \"STEAM_V\", \"explanation\": \"The steam valve is energized based solely on sequence step and agitator run status without independent high-temperature, high-pressure, or emergency stop interlocks.\"}]}"
+}

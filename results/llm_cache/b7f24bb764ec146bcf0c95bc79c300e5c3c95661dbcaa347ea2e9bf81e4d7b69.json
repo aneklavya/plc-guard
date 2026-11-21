@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 30, \"variable\": \"hmi_advance\", \"explanation\": \"HMI command bit can force immediate phase advance from green to yellow, bypassing the 30-second minimum green timer required for traffic safety.\"}]}"
+}

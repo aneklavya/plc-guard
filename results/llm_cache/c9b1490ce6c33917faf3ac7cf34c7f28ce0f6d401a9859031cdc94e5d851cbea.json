@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 16, \"variable\": \"door_unlock\", \"explanation\": \"Door unlock actuator energized without verifying door_closed safety interlock input.\"}]}"
+}

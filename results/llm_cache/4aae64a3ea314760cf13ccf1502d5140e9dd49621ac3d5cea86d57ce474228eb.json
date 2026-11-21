@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 11, \"variable\": \"v6\", \"explanation\": \"Actuator v6 can be energized by HMI command v1 without any safety interlock checks (v2, v3, v4<1100) that are required for the similar actuator v5.\"}]}"
+}

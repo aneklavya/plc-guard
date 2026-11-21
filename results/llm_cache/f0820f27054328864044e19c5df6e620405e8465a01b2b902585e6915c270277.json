@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"DIV_BY_ZERO\", \"line\": 21, \"variable\": \"samples\", \"explanation\": \"Division by 'samples' occurs every scan without a guard; on first scan and after reset 'samples' is zero causing a divide-by-zero fault.\"}]}"
+}

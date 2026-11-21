@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 22, \"variable\": \"TEST_MODE\", \"explanation\": \"HMI-writable TEST_MODE bit can energize safety-critical LIGHTS output without train presence, bypassing the train-detection interlock with no authorization or physical key-switch protection.\"}]}"
+}

@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 16, \"variable\": \"dosing_cmd\", \"explanation\": \"Actuator dosing_cmd is energized based solely on flow ratio without verifying safety interlocks such as e-stop, tank level, pressure, or overload conditions.\"}]}"
+}

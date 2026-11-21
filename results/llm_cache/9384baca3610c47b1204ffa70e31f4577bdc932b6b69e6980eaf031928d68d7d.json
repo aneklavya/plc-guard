@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 16, \"variable\": \"v6\", \"explanation\": \"A hidden scan-cycle counter triggers after 864000 iterations to bypass safety interlocks (v2, v3) on v4 and force v5 FALSE, overriding normal control logic.\"}]}"
+}

@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"PSH_SP\", \"explanation\": \"Safety-critical high-pressure trip setpoint stored in Modbus holding register %MW30 writable by HMI/network instead of a constant.\"}, {\"type\": \"INPUT_VALIDATION\", \"line\": 13, \"variable\": \"PSH_SP\", \"explanation\": \"Network-writable trip setpoint PSH_SP used in comparison without any range validation, allowing arbitrary trip thresholds.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 18, \"variable\": \"K301\", \"explanation\": \"Compressor output K301 energized based only on START_CMD and pressure trip, with no interlock for e-stop, overload, or other safety conditions.\"}]}"
+}

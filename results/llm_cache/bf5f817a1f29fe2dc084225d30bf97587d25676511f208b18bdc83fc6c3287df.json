@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"HARDCODED_CREDENTIAL\", \"line\": 9, \"variable\": \"service_code\", \"explanation\": \"Magic constant 31337 acts as a hardcoded password that enables the safety override when written to the network-accessible register %MW70.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 14, \"variable\": \"spindle\", \"explanation\": \"The guard_closed safety interlock can be bypassed by setting hmi_code (%MW70) to the service_code, allowing the spindle to run with the guard open via a network write.\"}]}"
+}

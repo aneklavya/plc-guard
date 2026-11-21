@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 22, \"variable\": \"acid_ml\", \"explanation\": \"Acid dosing actuator receives a constant setpoint every scan cycle without any safety interlock checks (e-stop, tank level, pressure, temperature, or batch permissive).\"}]}"
+}

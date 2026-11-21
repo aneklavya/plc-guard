@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"UNPROTECTED_CRITICAL_VAR\", \"line\": 5, \"variable\": \"v3\", \"explanation\": \"The compressor trip threshold (v3) is stored in Modbus holding register %MW30 which is writable by the HMI or any network client, allowing unauthorized modification of a safety-critical limit.\"}]}"
+}

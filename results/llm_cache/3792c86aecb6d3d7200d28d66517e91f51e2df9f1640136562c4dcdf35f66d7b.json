@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 19, \"variable\": \"ramp_rate\", \"explanation\": \"Network-writable ramp_rate (%MW8) is added to speed without range checking, allowing uncontrolled VFD reference output.\"}]}"
+}

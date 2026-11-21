@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 16, \"variable\": \"v3\", \"explanation\": \"Door actuator v3 is energized based only on access grant v1 and a 5s timer without checking safety interlocks (e.g., unused input v2 at %IX0.1 could be e-stop or door position sensor).\"}]}"
+}

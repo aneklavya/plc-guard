@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"OOB_INDEX\", \"line\": 14, \"variable\": \"hmi_recipe_idx\", \"explanation\": \"The HMI-supplied recipe index from %MW0 is used directly as an array index without bounds checking, allowing out-of-bounds memory access.\"}]}"
+}

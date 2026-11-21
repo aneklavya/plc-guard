@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 25, \"variable\": \"VFD1_REF\", \"explanation\": \"VFD speed references are set from network-writable flow setpoint without verifying safety interlocks (e-stop, pressure, level).\"}]}"
+}

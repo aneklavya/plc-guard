@@ -90,3 +90,16 @@ Dated record of decisions, problems and fixes, newest last. When you forget
   positive: `flow_sp` matched the critical-variable regex via "f**low_sp**".
 - Prompt v2 written from dev-split errors only; the held-out split tests
   whether it generalises.
+
+### 2026-11-21: Stage 3 repair loop, Stage 5 demo code, SCADA chapter
+- Repair loop (`plcguard/repair.py`): LLM fix → MatIEC compile → I/O-map
+  check → independent LLM re-scan, up to 3 attempts with feedback. First
+  real test (29, press restart) fixed on attempt 1, identical to the clean twin.
+- Demo code: OpenPLC web automation and a 30-line Modbus/TCP client written
+  from the protocol (no library), to show a write needs no credentials.
+- v1 on original code, 60 programs, 3 repeats: held-out F1 0.70 (R 0.97,
+  P 0.55) vs rules 0.46.
+- The full LLM run and the OpenPLC image build were **stopped by Claude Code
+  because the laptop ran critically low on memory** (Docker build + WSL +
+  4 parallel workers + other containers). Cached replies are kept, so the
+  run resumes where it stopped. Restart only when memory allows.

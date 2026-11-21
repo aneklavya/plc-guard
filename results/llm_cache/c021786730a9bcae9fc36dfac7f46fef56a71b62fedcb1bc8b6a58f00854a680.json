@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 20, \"variable\": \"state\", \"explanation\": \"Fault state (9) transitions directly to running state (1) when ESTOP_OK and GUARD_OK are restored, without requiring RESET_PB acknowledgment or START_PB press, enabling automatic restart after safety fault.\"}]}"
+}

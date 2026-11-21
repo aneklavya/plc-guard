@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 19, \"variable\": \"aux_cnt\", \"explanation\": \"Hidden 30-day runtime counter (2592000 seconds) forces booster output OFF regardless of demand or safety interlocks, overriding normal control logic.\"}]}"
+}

@@ -9,6 +9,7 @@ the server's key (NVIDIA_API_KEY), capped per session and per day.
 from __future__ import annotations
 
 import datetime
+import json
 import os
 import threading
 
@@ -21,12 +22,17 @@ from plcguard.llm import DEFAULT_CACHE, LLMClient, LLMError, load_dotenv
 from plcguard.llm_detector import LLMDetector
 from plcguard.obfuscate import obfuscate
 from plcguard.taxonomy import CWE, DESCRIPTIONS
-from plcguard.tracking import RUN_LOG, read_runs
+from plcguard.tracking import RUN_LOG, dataset_hash, read_runs
 
 ROOT = DEFAULT_CACHE.parent.parent
 MAX_CHARS = 20_000
 SESSION_LIMIT = int(os.environ.get("PLCGUARD_SESSION_LIMIT", "5"))
 DAILY_LIMIT = int(os.environ.get("PLCGUARD_DAILY_LIMIT", "200"))
+
+RESULTS_NOTE = (
+    "**Reading the results.** On the dev split the rules look perfect because they were "
+    "written alongside those programs; on the held-out split they find well under half "
+    "of the bugs. See docs/04-stage2-llm.md for the full analysis.")
 
 load_dotenv()
 st.set_page_config(page_title="PLCGuard", page_icon="🛡️", layout="wide")
@@ -163,34 +169,61 @@ with scan_tab:
 # -- results ------------------------------------------------------------------
 
 with results_tab:
-    st.markdown("Zero-shot evaluation on 20 labeled programs (10 vulnerable, 10 clean, "
-                "11 labeled vulnerabilities). LLM rows are the mean ± std of 3 runs.")
+    current = dataset_hash(ROOT / "dataset")
+    progs = list(dataset().values())
+    st.markdown(f"Zero-shot evaluation on {len(progs)} labeled programs "
+                f"({sum(p.vulnerable for p in progs)} vulnerable, "
+                f"{sum(not p.vulnerable for p in progs)} clean, "
+                f"{sum(len(p.vulns) for p in progs)} labeled vulnerabilities). "
+                "**dev** = scenarios 01–10, seen while building the rules and prompt v1; "
+                "**held-out** = scenarios 11–30, written afterwards. "
+                "LLM rows are the mean ± std of 3 runs.")
+    split_label = st.radio("Split", ["held-out (honest)", "dev", "all"], horizontal=True,
+                           key="split")
+    split = {"held-out (honest)": "heldout"}.get(split_label, split_label)
     latest = {}
     for run in read_runs(RUN_LOG):
-        latest[(run["detector"], run.get("model", "-"), run["variant"])] = run
+        if run["dataset_hash"] == current and run.get("split", "all") == split:
+            latest[(run["detector"], run.get("model", "-"), run.get("prompt_version", "-"),
+                    run["variant"])] = run
     rows = []
-    for (det, model, variant), run in sorted(latest.items(), key=lambda kv: (kv[0][2], kv[0][0])):
+    for (det, model, prompt, variant), run in sorted(latest.items(),
+                                                     key=lambda kv: (kv[0][3], kv[0][0], kv[0][2])):
         m = run["metrics"]
-        rows.append({"Detector": det, "Model": model, "Code": variant,
+        rows.append({"Detector": det, "Prompt": prompt, "Code": variant,
                      "Precision": m["precision"]["mean"], "Recall": m["recall"]["mean"],
                      "F1": m["f1"]["mean"], "F1 std": m["f1"]["std"],
-                     "Clean files flagged": f"{m['clean_flagged']['mean']:.1f} / {run['clean_files']}"})
+                     "Clean files flagged": f"{m['clean_flagged']['mean']:.1f} / {run['clean_files']}",
+                     "Model": model})
     if rows:
         df = pd.DataFrame(rows)
         st.dataframe(df.style.format({"Precision": "{:.2f}", "Recall": "{:.2f}",
                                       "F1": "{:.2f}", "F1 std": "±{:.2f}"}),
                      hide_index=True, use_container_width=True)
         chart = df[df["Detector"] != "hybrid"].assign(
-            Config=lambda d: d["Detector"] + " · " + d["Code"])
+            Config=lambda d: d["Detector"] + " " + d["Prompt"].where(d["Prompt"] != "-", "")
+            + " · " + d["Code"])
         st.bar_chart(chart.set_index("Config")[["Precision", "Recall", "F1"]],
                      stack=False, height=320)
-        st.markdown(
-            "**Reading the results.** The rules are perfect on the original code but miss "
-            "45% of the bugs once variables are renamed. Nemotron finds every labeled bug "
-            "on both variants, but about a third to a half of its reports are false alarms. "
-            "The hybrid (rules ∪ LLM) scores the same as the LLM alone.")
+        st.markdown(RESULTS_NOTE)
     else:
-        st.info("No runs logged yet. Run `python -m plcguard eval`.")
+        st.info("No runs on the current dataset yet. Run `python -m plcguard eval`.")
+
+    repairs = sorted((ROOT / "results").glob("repair_*.json"))
+    if repairs:
+        st.subheader("Repair (Stage 3)")
+        rep = json.loads(repairs[-1].read_text(encoding="utf-8"))
+        m = rep["by_split"][split]
+        if m["programs"]:
+            cols = st.columns(4)
+            cols[0].metric("Fixed and verified", f"{m['fixed']} / {m['programs']}")
+            cols[1].metric("Fixed on first try", f"{m['fixed_first_try_rate']:.0%}")
+            cols[2].metric("Compiles (MatIEC)", f"{m['compile_rate']:.0%}")
+            cols[3].metric("I/O map kept", f"{m['io_preserved_rate']:.0%}")
+            st.caption("Each vulnerable program is repaired by the LLM given its labeled "
+                       "findings, then accepted only if it compiles with MatIEC, keeps every "
+                       "AT address, and an independent LLM re-scan no longer finds the bug "
+                       "(up to 3 attempts with feedback).")
 
 # -- about --------------------------------------------------------------------
 

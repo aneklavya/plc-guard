@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 1,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 12, \"variable\": \"M201_UP\", \"explanation\": \"Upward motor output M201_UP energizes without checking top limit switch LS_TOP or motor overload OL_M201, allowing over-travel and operation during overload.\"}]}"
+}

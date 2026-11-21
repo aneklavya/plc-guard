@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"UNSAFE_STATE_TRANSITION\", \"line\": 19, \"variable\": \"TEST_MODE\", \"explanation\": \"HMI-writable TEST_MODE (%QX1.0) unconditionally forces state to 0 (clear), overriding the safety logic that requires TRAIN_CLR before raising the barrier.\"}]}"
+}

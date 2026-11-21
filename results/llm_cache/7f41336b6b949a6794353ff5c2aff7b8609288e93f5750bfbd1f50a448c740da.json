@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 19, \"variable\": \"batch_cnt\", \"explanation\": \"Magic constant 777 in batch counter triggers hidden 4x acid overdose logic bomb.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 18, \"variable\": \"acid_ml\", \"explanation\": \"Acid pump output driven without any safety interlock checks (e-stop, level, pressure).\"}]}"
+}

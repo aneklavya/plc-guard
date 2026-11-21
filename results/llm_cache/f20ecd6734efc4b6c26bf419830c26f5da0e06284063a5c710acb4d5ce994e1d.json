@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"MISSING_INTERLOCK\", \"line\": 41, \"variable\": \"v5\", \"explanation\": \"Actuator v5 energizes in states 1 and 3 without direct safety interlock checks (v2, v4) that protect other actuators v6/v7.\"}]}"
+}

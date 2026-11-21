@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"INPUT_VALIDATION\", \"line\": 13, \"variable\": \"v3\", \"explanation\": \"Untrusted Modbus register %MW10 (v3) used directly as dosing setpoint multiplier without range check, allowing network attacker to drive analog output %QW0 to arbitrary values.\"}]}"
+}

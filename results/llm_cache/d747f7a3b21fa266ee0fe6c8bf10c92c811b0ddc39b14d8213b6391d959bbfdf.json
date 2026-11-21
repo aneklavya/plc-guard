@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 19, \"variable\": \"v6\", \"explanation\": \"A runtime counter (v6) increments every second via a self-resetting timer and after 30 days (2592000 seconds) forces output v3 FALSE regardless of process inputs v1 and v2, constituting a time-based logic bomb.\"}]}"
+}

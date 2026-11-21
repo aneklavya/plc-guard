@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 2,
+ "response": "{\"findings\": [{\"type\": \"LOGIC_BOMB\", \"line\": 16, \"variable\": \"cycle_count\", \"explanation\": \"Cycle counter exceeding 864000 triggers a hidden logic bomb that disables safety interlocks (estop and jam_sensor) for motor control.\"}, {\"type\": \"MISSING_INTERLOCK\", \"line\": 18, \"variable\": \"conveyor_motor\", \"explanation\": \"After logic bomb triggers, conveyor_motor is energized solely from hmi_start without checking estop or jam_sensor, bypassing critical safety interlocks.\"}]}"
+}

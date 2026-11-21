@@ -58,9 +58,22 @@ LLM is supposed to fix.
 
 ## The dataset
 
-`dataset/programs/` has **10 scenarios × 2 versions = 20 programs**: each
+`dataset/programs/` has **30 scenarios × 2 versions = 60 programs**: each
 scenario has a `_vuln.st` and a `_clean.st` that does the same job safely.
-There are **11 labeled vulnerabilities** (scenario 04 has two).
+There are **33 labeled vulnerabilities** (scenarios 04, 20 and 30 have two).
+
+The dataset has two **splits** (field `split` in `labels.json`):
+
+- **dev** (scenarios 01–10, 11 bugs): written together with the rules and
+  used while designing the LLM prompt. Scores on dev are optimistic.
+- **heldout** (scenarios 11–30, 22 bugs): written in Stage 4, *after* the
+  rules were frozen, without running the rules on them while writing. They
+  use more plant-style tag names (`M201_UP`, `PSH_SP`, `K1`) as real code
+  does, and include harder cases (a FOR-loop bound from the network, a logic
+  bomb on a small number, an indirect data flow through a temporary).
+  Scores on held-out are the honest ones.
+
+Dev split:
 
 | # | Scenario | Labeled vulnerability |
 |---|---|---|
@@ -74,6 +87,37 @@ There are **11 labeled vulnerabilities** (scenario 04 has two).
 | 08 | Boiler trip | UNPROTECTED_CRITICAL_VAR: `trip_pressure AT %MW20` |
 | 09 | Heater power | INPUT_VALIDATION: HMI percentage scaled without a check |
 | 10 | Traffic light | UNSAFE_STATE_TRANSITION: `phase := hmi_force_phase` |
+
+Held-out split:
+
+| # | Scenario | Labeled vulnerability |
+|---|---|---|
+| 11 | Chlorine dosing | INPUT_VALIDATION: dose setpoint from SCADA drives pump speed (Oldsmar-like) |
+| 12 | Crane hoist | MISSING_INTERLOCK: hoist-up ignores top limit and overload |
+| 13 | Compressor trip | UNPROTECTED_CRITICAL_VAR: `PSH_SP AT %MW30` |
+| 14 | Door access | HARDCODED_CREDENTIAL: keypad code `2580` |
+| 15 | Reactor steps | UNSAFE_STATE_TRANSITION: the sequence step itself is a Modbus register |
+| 16 | Booster runtime | LOGIC_BOMB: pump stops after 30 days of uptime |
+| 17 | Sorter gates | OOB_INDEX: lane number from Modbus indexes a write |
+| 18 | Flow average | DIV_BY_ZERO: sample count is 0 after reset |
+| 19 | Mixer ramp | INPUT_VALIDATION: network ramp rate added without bounds |
+| 20 | Reservoir fill | MISSING_INTERLOCK (high-high switch ignored) + UNPROTECTED_CRITICAL_VAR (alarm setpoint in `%MW50`) |
+| 21 | Furnace heat | MISSING_INTERLOCK: contactor `K1` ignores door and over-temperature |
+| 22 | Lift station | DIV_BY_ZERO: `MOD n_avail` when both pumps are out of service |
+| 23 | Level crossing | UNSAFE_STATE_TRANSITION: HMI test bit raises the barrier during a train |
+| 24 | Kiln profile | OOB_INDEX: FOR-loop bound from a Modbus register |
+| 25 | Spindle guard | HARDCODED_CREDENTIAL: service code `31337` overrides the guard |
+| 26 | Turbine overspeed | UNPROTECTED_CRITICAL_VAR: overspeed trip point in `%MW80` |
+| 27 | Chiller valve | INPUT_VALIDATION: setpoint flows through a temporary into the valve |
+| 28 | Acid batches | LOGIC_BOMB: 4× acid dose on batch 777 |
+| 29 | Press restart | UNSAFE_STATE_TRANSITION: auto-restart after e-stop, no reset |
+| 30 | Distribution pumps | DIV_BY_ZERO (no pump running) + INPUT_VALIDATION (flow setpoint) |
+
+**Every program compiles with MatIEC**, OpenPLC's real compiler
+(`tests/test_compile_check.py`, also run in CI). This was not true at first:
+strict IEC 61131-3 requires located (`AT %...`) variables to be declared in
+their own `VAR` block, and `STEP` is a reserved word. See the decision log
+(2026-11-21).
 
 **Why pairs?** A clean twin tests false positives on code that looks almost
 the same. A detector that just says "vulnerable" to everything would score
@@ -123,12 +167,14 @@ many vulnerable files got any finding; how many clean files got any finding),
 and **localisation**: for a correctly detected type, was some finding of that
 type within ±1 line of the labeled snippet?
 
-## Stage 1 results
+## Rule results
 
-| Dataset | Precision | Recall | F1 | Clean files flagged |
-|---|---|---|---|---|
-| Original | 1.00 | 1.00 | 1.00 | 0/10 |
-| Obfuscated | 1.00 | 0.55 | 0.71 | 0/10 |
+| Split | Names | Precision | Recall | F1 | Clean files flagged |
+|---|---|---|---|---|---|
+| dev | original | 1.00 | 1.00 | 1.00 | 0/10 |
+| dev | renamed | 1.00 | 0.55 | 0.71 | 0/10 |
+| **held-out** | original | 0.53 | 0.41 | **0.46** | 2/20 |
+| held-out | renamed | 0.69 | 0.41 | 0.51 | 0/20 |
 
 Missed on the obfuscated set: MISSING_INTERLOCK (02, 04), HARDCODED_CREDENTIAL
 (03), UNSAFE_STATE_TRANSITION (07, `hmi_skip_purge` became `v2`),
@@ -140,5 +186,14 @@ achievement: the rules and the dataset were written by the same person at the
 same time, so of course they agree. The finding is the **drop** on renaming,
 which shows how fragile naming heuristics are. That is the motivation for
 Stage 2.
+
+**Held-out confirms it.** On programs the rules were not written alongside,
+F1 falls to 0.46: they find 41% of the bugs and raise false alarms too.
+What they miss is telling: plant tag names (`M201_UP`, `K1`, `PSH_SP`,
+`overspeed_rpm`) don't match the regexes; a FOR-loop bound from the network
+is exempt because loop counters are assumed safe; `batch_cnt = 777` is below
+the "magic number" threshold of 10,000. A typical false positive:
+`flow_sp` matched the critical-variable pattern `low_sp` (f**low_sp**).
+Hand-written patterns tuned on a few examples do not generalise.
 
 Next: [Stage 2](04-stage2-llm.md)

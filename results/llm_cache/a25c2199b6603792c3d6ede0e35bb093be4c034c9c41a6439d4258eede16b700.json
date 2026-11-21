@@ -1,0 +1,7 @@
+{
+ "provider": "nvidia",
+ "model": "nvidia/nemotron-3-ultra-550b-a55b",
+ "temperature": 0.0,
+ "sample": 0,
+ "response": "```st\nPROGRAM PressRestart\n  VAR\n    ESTOP_OK  AT %IX0.0 : BOOL;\n    GUARD_OK  AT %IX0.1 : BOOL;\n    RESET_PB  AT %IX0.2 : BOOL;\n    START_PB  AT %IX0.3 : BOOL;\n    PRESS_RUN AT %QX0.0 : BOOL;\n    FAULT_LMP AT %QX0.1 : BOOL;\n  END_VAR\n  VAR\n    state     : INT;\n  END_VAR\n\n  CASE state OF\n    0:\n      IF START_PB AND ESTOP_OK AND GUARD_OK THEN state := 1; END_IF;\n    1:\n      IF NOT ESTOP_OK OR NOT GUARD_OK THEN state := 9; END_IF;\n    9:\n      IF RESET_PB AND ESTOP_OK AND GUARD_OK THEN state := 0; END_IF;\n  END_CASE;\n\n  PRESS_RUN := (state = 1);\n  FAULT_LMP := (state = 9);\nEND_PROGRAM\n```\n\nFixed UNSAFE_STATE_TRANSITION: fault state (9) now requires RESET_PB acknowledgment and safe conditions to return to stopped state (0), then START_PB press to resume running."
+}
