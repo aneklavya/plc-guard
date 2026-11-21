@@ -8,6 +8,8 @@ PROGRAM BurnerSequence
     purge_fan      AT %QX0.0 : BOOL;
     igniter        AT %QX0.1 : BOOL;
     fuel_valve     AT %QX0.2 : BOOL;
+  END_VAR
+  VAR
     state          : INT := 0;
     purge_timer    : TON;
     ignite_timer   : TON;

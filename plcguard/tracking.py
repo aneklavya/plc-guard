@@ -77,27 +77,40 @@ def read_runs(path: Path = RUN_LOG) -> list[dict]:
             if line.strip()]
 
 
-def summary_markdown(runs: list[dict]) -> str:
-    """Latest run per (detector, model, prompt, variant) as one comparison table."""
+def summary_markdown(runs: list[dict], only_dataset: str | None = None) -> str:
+    """Latest run per (detector, model, prompt, variant, split) as one table.
+
+    With `only_dataset`, runs on other versions of the dataset are left out.
+    Runs logged before splits existed count as split "all".
+    """
     latest: dict[tuple, dict] = {}
     for r in runs:
-        key = (r["detector"], r.get("model", ""), r.get("prompt_hash", ""), r["variant"])
+        if only_dataset and r["dataset_hash"] != only_dataset:
+            continue
+        key = (r["detector"], r.get("model", ""), r.get("prompt_hash", ""), r["variant"],
+               r.get("split", "all"))
         latest[key] = r
     out = ["# PLCGuard results summary", "",
            "Latest run per configuration, generated from `results/runs.jsonl` by "
-           "`python -m plcguard summary`. Mean ± std over repeated runs.", "",
-           "| Detector | Model | Variant | Runs | Precision | Recall | F1 | "
+           "`python -m plcguard summary`. Mean ± std over repeated runs."
+           + (f" Dataset `{only_dataset}` only." if only_dataset else ""), "",
+           "| Detector | Model | Prompt | Variant | Split | Runs | Precision | Recall | F1 | "
            "Clean flagged | Errors | Commit | Dataset |",
-           "|---|---|---|---|---|---|---|---|---|---|---|"]
+           "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
 
     def ms(s, fmt=".2f"):
         return f"{s['mean']:{fmt}}" + (f" ± {s['std']:{fmt}}" if s["std"] else "")
 
-    for r in sorted(latest.values(), key=lambda r: (r["variant"], r["detector"],
+    order = {"all": 0, "dev": 1, "heldout": 2}
+    for r in sorted(latest.values(), key=lambda r: (order.get(r.get("split", "all"), 3),
+                                                     r["variant"], r["detector"],
+                                                     r.get("prompt_version", ""),
                                                      r.get("model", ""))):
         m = r["metrics"]
         commit = r["git_commit"] + ("+dirty" if r["git_dirty"] else "")
-        out.append(f"| {r['detector']} | {r.get('model') or '-'} | {r['variant']} | {m['n']} | "
+        out.append(f"| {r['detector']} | {r.get('model') or '-'} | "
+                   f"{r.get('prompt_version') or '-'} | {r['variant']} | "
+                   f"{r.get('split', 'all')} | {m['n']} | "
                    f"{ms(m['precision'])} | {ms(m['recall'])} | {ms(m['f1'])} | "
                    f"{ms(m['clean_flagged'], '.1f')}/{r['clean_files']} | "
                    f"{ms(m['errors'], '.1f')} | {commit} | {r['dataset_hash']} |")

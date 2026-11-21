@@ -4,6 +4,8 @@ PROGRAM BoilerTrip
     hmi_reset      AT %QX1.0 : BOOL;
     burner_enable  AT %QX0.0 : BOOL;
     trip_alarm     AT %QX0.1 : BOOL;
+  END_VAR
+  VAR
     tripped        : BOOL;
   END_VAR
   VAR CONSTANT

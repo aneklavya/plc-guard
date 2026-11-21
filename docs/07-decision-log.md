@@ -70,3 +70,23 @@ Dated record of decisions, problems and fixes, newest last. When you forget
 ### 2026-10-24: Documentation
 - Started `docs/`. Every future change updates the relevant chapter and adds
   an entry here.
+
+### 2026-11-21: Dataset v2 (Stage 4), held-out split, MatIEC
+- Added 20 new pairs (scenarios 11-30), written *after* the rules were
+  frozen and without running the rules on them while writing. They form the
+  **held-out** split; 01-10 are the **dev** split (seen while building the
+  rules and prompt v1). Dataset: 60 programs, 33 labeled vulnerabilities.
+  More plant-style tag names (`M201_UP`, `PSH_SP`, `K1`), as in real code.
+- Built MatIEC (OpenPLC's compiler) from a pinned commit. It rejected 47 of
+  60 programs: strict IEC 61131-3 needs located (`AT %...`) variables in
+  their own VAR block, and `step` is a reserved word. Fixed both (block split
+  is mechanical and keeps the logic). **All 60 now compile**, and CI checks
+  that on every push. The Stage 2 numbers from October were measured on the
+  old, non-compiling text; they stay in `runs.jsonl` as history.
+- The C: drive filled up (0 bytes free) mid-build, which crashed Docker
+  Desktop and made the WSL disk read-only. After freeing space, MatIEC was
+  built inside WSL Ubuntu instead of Docker.
+- Rules on held-out: F1 0.46 (P 0.53, R 0.41) vs 1.00 on dev. Example false
+  positive: `flow_sp` matched the critical-variable regex via "f**low_sp**".
+- Prompt v2 written from dev-split errors only; the held-out split tests
+  whether it generalises.

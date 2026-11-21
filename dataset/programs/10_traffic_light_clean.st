@@ -7,6 +7,8 @@ PROGRAM TrafficLight
     ew_green    AT %QX0.3 : BOOL;
     ew_yellow   AT %QX0.4 : BOOL;
     ew_red      AT %QX0.5 : BOOL;
+  END_VAR
+  VAR
     phase       : INT := 0;
     phase_time  : TIME;
     phase_timer : TON;

@@ -36,8 +36,10 @@ def test_eval_writes_manifest_and_appends_to_log(tmp_path, capsys):
     for _ in range(2):
         assert main(["eval", "--out", str(tmp_path)]) == 0
     runs = read_runs(tmp_path / "runs.jsonl")
-    assert len(runs) == 2
-    run = runs[-1]
+    assert len(runs) == 6  # one record per split (all, dev, heldout) per eval
+    assert [r["split"] for r in runs[:3]] == ["all", "dev", "heldout"]
+    assert runs[1]["programs"] + runs[2]["programs"] == runs[0]["programs"]
+    run = runs[-3]
     for key in ("timestamp", "git_commit", "git_dirty", "dataset_hash", "metrics"):
         assert key in run
     assert run["dataset_hash"] == dataset_hash(DATASET)
@@ -46,7 +48,7 @@ def test_eval_writes_manifest_and_appends_to_log(tmp_path, capsys):
 
     assert main(["summary", "--out", str(tmp_path)]) == 0
     summary = (tmp_path / "SUMMARY.md").read_text(encoding="utf-8")
-    assert summary.count("| rules |") == 1  # latest run per configuration only
+    assert summary.count("| rules |") == 3  # latest run per split only
 
 
 def test_summary_separates_prompt_versions():

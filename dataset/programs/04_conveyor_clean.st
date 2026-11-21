@@ -6,6 +6,8 @@ PROGRAM Conveyor
     conveyor_motor AT %QX0.0 : BOOL;
     jam_alarm      AT %QX0.1 : BOOL;
     maint_due_lamp AT %QX0.2 : BOOL;
+  END_VAR
+  VAR
     cycle_count    : DINT;
   END_VAR
 

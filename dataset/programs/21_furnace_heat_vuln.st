@@ -1,0 +1,13 @@
+PROGRAM FurnaceHeat
+  VAR
+    HEAT_ON  AT %QX1.0 : BOOL;
+    DOOR_CLS AT %IX0.0 : BOOL;
+    TSH_901  AT %IX0.1 : BOOL;
+    TT_901   AT %IW0   : INT;
+    K1       AT %QX0.0 : BOOL;
+    FAN      AT %QX0.1 : BOOL;
+  END_VAR
+
+  FAN := HEAT_ON OR TT_901 > 60;
+  K1 := HEAT_ON AND TT_901 < 1100;
+END_PROGRAM

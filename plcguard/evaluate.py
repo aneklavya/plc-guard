@@ -33,6 +33,7 @@ class ProgramLabel:
     vulnerable: bool
     source: str
     vulns: list[LabeledVuln] = field(default_factory=list)
+    split: str = "dev"  # "dev" (01-10, seen while building) or "heldout" (11-30)
 
 
 def load_dataset(dataset_dir: Path) -> list[ProgramLabel]:
@@ -47,7 +48,7 @@ def load_dataset(dataset_dir: Path) -> list[ProgramLabel]:
             vulns.append(LabeledVuln(VulnType(v["type"]), v["snippet"],
                                      v.get("description", ""), lines))
         programs.append(ProgramLabel(p["file"], p["scenario"], p["vulnerable"],
-                                     source, vulns))
+                                     source, vulns, p.get("split", "dev")))
     return programs
 
 

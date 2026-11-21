@@ -1,7 +1,7 @@
 {
   "per_type": {
     "DIV_BY_ZERO": {
-      "tp": 1,
+      "tp": 4,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -11,77 +11,77 @@
     "HARDCODED_CREDENTIAL": {
       "tp": 1,
       "fp": 0,
-      "fn": 0,
+      "fn": 2,
       "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0
+      "recall": 0.3333333333333333,
+      "f1": 0.5
     },
     "INPUT_VALIDATION": {
-      "tp": 2,
-      "fp": 0,
+      "tp": 6,
+      "fp": 4,
       "fn": 0,
-      "precision": 1.0,
+      "precision": 0.6,
       "recall": 1.0,
-      "f1": 1.0
+      "f1": 0.7499999999999999
     },
     "LOGIC_BOMB": {
-      "tp": 1,
+      "tp": 2,
       "fp": 0,
-      "fn": 0,
+      "fn": 1,
       "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0
+      "recall": 0.6666666666666666,
+      "f1": 0.8
     },
     "MISSING_INTERLOCK": {
       "tp": 2,
-      "fp": 0,
-      "fn": 0,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0
+      "fp": 2,
+      "fn": 3,
+      "precision": 0.5,
+      "recall": 0.4,
+      "f1": 0.4444444444444445
     },
     "OOB_INDEX": {
-      "tp": 1,
+      "tp": 2,
       "fp": 0,
-      "fn": 0,
+      "fn": 1,
       "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0
+      "recall": 0.6666666666666666,
+      "f1": 0.8
     },
     "UNPROTECTED_CRITICAL_VAR": {
       "tp": 1,
-      "fp": 0,
-      "fn": 0,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0
+      "fp": 2,
+      "fn": 3,
+      "precision": 0.3333333333333333,
+      "recall": 0.25,
+      "f1": 0.28571428571428575
     },
     "UNSAFE_STATE_TRANSITION": {
       "tp": 2,
       "fp": 0,
-      "fn": 0,
+      "fn": 3,
       "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0
+      "recall": 0.4,
+      "f1": 0.5714285714285715
     }
   },
   "micro": {
-    "tp": 11,
-    "fp": 0,
-    "fn": 0,
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1": 1.0
+    "tp": 20,
+    "fp": 8,
+    "fn": 13,
+    "precision": 0.7142857142857143,
+    "recall": 0.6060606060606061,
+    "f1": 0.6557377049180327
   },
   "file_level": {
-    "vulnerable_files": 10,
-    "vulnerable_detected": 10,
-    "clean_files": 10,
-    "clean_flagged": 0
+    "vulnerable_files": 30,
+    "vulnerable_detected": 22,
+    "clean_files": 30,
+    "clean_flagged": 2
   },
   "localisation": {
-    "correct": 11,
-    "of_detected": 11
+    "correct": 20,
+    "of_detected": 20
   },
   "parse_errors": 0,
   "programs": [
@@ -129,7 +129,7 @@
       "findings": [
         {
           "vuln_type": "MISSING_INTERLOCK",
-          "line": 17,
+          "line": 19,
           "message": "actuator 'pump_run' can be energised without any safety condition",
           "rule": "PLC-INTERLOCK",
           "variable": "pump_run",
@@ -193,7 +193,7 @@
       "findings": [
         {
           "vuln_type": "LOGIC_BOMB",
-          "line": 14,
+          "line": 16,
           "message": "branch gated by a magic constant overrides output 'jam_alarm'",
           "rule": "PLC-BOMB",
           "variable": "jam_alarm",
@@ -201,7 +201,7 @@
         },
         {
           "vuln_type": "MISSING_INTERLOCK",
-          "line": 16,
+          "line": 18,
           "message": "actuator 'conveyor_motor' can be energised without any safety condition",
           "rule": "PLC-INTERLOCK",
           "variable": "conveyor_motor",
@@ -232,7 +232,7 @@
       "findings": [
         {
           "vuln_type": "OOB_INDEX",
-          "line": 12,
+          "line": 14,
           "message": "array index 'hmi_recipe_idx' is not bounds-checked",
           "rule": "PLC-OOB",
           "variable": "hmi_recipe_idx",
@@ -240,7 +240,7 @@
         },
         {
           "vuln_type": "OOB_INDEX",
-          "line": 13,
+          "line": 15,
           "message": "array index 'hmi_recipe_idx' is not bounds-checked",
           "rule": "PLC-OOB",
           "variable": "hmi_recipe_idx",
@@ -271,7 +271,7 @@
       "findings": [
         {
           "vuln_type": "DIV_BY_ZERO",
-          "line": 9,
+          "line": 11,
           "message": "divisor 'flow_b' is not checked for zero",
           "rule": "PLC-DIV",
           "variable": "flow_b",
@@ -302,7 +302,7 @@
       "findings": [
         {
           "vuln_type": "UNSAFE_STATE_TRANSITION",
-          "line": 26,
+          "line": 28,
           "message": "transition of 'state' can be triggered by bypass signal 'hmi_skip_purge'",
           "rule": "PLC-STATE",
           "variable": "state",
@@ -395,7 +395,7 @@
       "findings": [
         {
           "vuln_type": "UNSAFE_STATE_TRANSITION",
-          "line": 29,
+          "line": 31,
           "message": "state 'phase' is written directly from network-writable 'hmi_force_phase'",
           "rule": "PLC-STATE",
           "variable": "phase",
@@ -412,48 +412,698 @@
       "extra": [],
       "findings": [],
       "error": null
+    },
+    {
+      "file": "11_chlorine_dosing_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION",
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 11,
+          "message": "actuator 'dosing_pump' can be energised without any safety condition",
+          "rule": "PLC-INTERLOCK",
+          "variable": "dosing_pump",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 13,
+          "message": "'dose_sp' (%MW10) is network-writable and flows into 'pump_speed' without a range check",
+          "rule": "PLC-IV",
+          "variable": "dose_sp",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "11_chlorine_dosing_clean.st",
+      "expected": [],
+      "predicted": [
+        "MISSING_INTERLOCK"
+      ],
+      "missed": [],
+      "extra": [
+        "MISSING_INTERLOCK"
+      ],
+      "findings": [
+        {
+          "vuln_type": "MISSING_INTERLOCK",
+          "line": 11,
+          "message": "actuator 'dosing_pump' can be energised without any safety condition",
+          "rule": "PLC-INTERLOCK",
+          "variable": "dosing_pump",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "12_crane_hoist_vuln.st",
+      "expected": [
+        "MISSING_INTERLOCK"
+      ],
+      "predicted": [],
+      "missed": [
+        "MISSING_INTERLOCK"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "12_crane_hoist_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "13_compressor_trip_vuln.st",
+      "expected": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "predicted": [],
+      "missed": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "13_compressor_trip_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "14_door_access_vuln.st",
+      "expected": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "extra": [
+        "INPUT_VALIDATION"
+      ],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 13,
+          "message": "'keypad_entry' (%MW5) is network-writable and flows into 'open_req' without a range check",
+          "rule": "PLC-IV",
+          "variable": "keypad_entry",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "14_door_access_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "15_reactor_steps_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "extra": [
+        "INPUT_VALIDATION"
+      ],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 24,
+          "message": "'seq_step' (%MW40) is network-writable and flows into 'FILL_V' without a range check",
+          "rule": "PLC-IV",
+          "variable": "seq_step",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 25,
+          "message": "'seq_step' (%MW40) is network-writable and flows into 'STEAM_V' without a range check",
+          "rule": "PLC-IV",
+          "variable": "seq_step",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 26,
+          "message": "'seq_step' (%MW40) is network-writable and flows into 'DRAIN_V' without a range check",
+          "rule": "PLC-IV",
+          "variable": "seq_step",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "15_reactor_steps_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "16_booster_runtime_vuln.st",
+      "expected": [
+        "LOGIC_BOMB"
+      ],
+      "predicted": [
+        "LOGIC_BOMB"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "LOGIC_BOMB",
+          "line": 19,
+          "message": "branch gated by a magic constant overrides output 'booster'",
+          "rule": "PLC-BOMB",
+          "variable": "booster",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "16_booster_runtime_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "17_sorter_gates_vuln.st",
+      "expected": [
+        "OOB_INDEX"
+      ],
+      "predicted": [
+        "OOB_INDEX"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "OOB_INDEX",
+          "line": 16,
+          "message": "array index 'lane_req' is not bounds-checked",
+          "rule": "PLC-OOB",
+          "variable": "lane_req",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "17_sorter_gates_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "18_flow_average_vuln.st",
+      "expected": [
+        "DIV_BY_ZERO"
+      ],
+      "predicted": [
+        "DIV_BY_ZERO"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "DIV_BY_ZERO",
+          "line": 21,
+          "message": "divisor 'samples' is not checked for zero",
+          "rule": "PLC-DIV",
+          "variable": "samples",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "18_flow_average_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "19_mixer_ramp_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 19,
+          "message": "'ramp_rate' (%MW8) is network-writable and flows into 'speed' without a range check",
+          "rule": "PLC-IV",
+          "variable": "ramp_rate",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "19_mixer_ramp_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "20_reservoir_fill_vuln.st",
+      "expected": [
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [
+        "MISSING_INTERLOCK",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "extra": [
+        "INPUT_VALIDATION"
+      ],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 20,
+          "message": "'LAH_SP' (%MW50) is network-writable and flows into 'LAH_501' without a range check",
+          "rule": "PLC-IV",
+          "variable": "LAH_SP",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "20_reservoir_fill_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "21_furnace_heat_vuln.st",
+      "expected": [
+        "MISSING_INTERLOCK"
+      ],
+      "predicted": [],
+      "missed": [
+        "MISSING_INTERLOCK"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "21_furnace_heat_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "22_lift_station_vuln.st",
+      "expected": [
+        "DIV_BY_ZERO"
+      ],
+      "predicted": [
+        "DIV_BY_ZERO"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "DIV_BY_ZERO",
+          "line": 30,
+          "message": "divisor 'n_avail' is not checked for zero",
+          "rule": "PLC-DIV",
+          "variable": "n_avail",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "22_lift_station_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "23_level_crossing_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [],
+      "missed": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "23_level_crossing_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "24_kiln_profile_vuln.st",
+      "expected": [
+        "OOB_INDEX"
+      ],
+      "predicted": [],
+      "missed": [
+        "OOB_INDEX"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "24_kiln_profile_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "25_spindle_guard_vuln.st",
+      "expected": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [
+        "HARDCODED_CREDENTIAL"
+      ],
+      "extra": [
+        "INPUT_VALIDATION"
+      ],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 13,
+          "message": "'hmi_code' (%MW70) is network-writable and flows into 'override' without a range check",
+          "rule": "PLC-IV",
+          "variable": "hmi_code",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "25_spindle_guard_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "26_turbine_overspeed_vuln.st",
+      "expected": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "predicted": [],
+      "missed": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "26_turbine_overspeed_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "27_chiller_valve_vuln.st",
+      "expected": [
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "INPUT_VALIDATION"
+      ],
+      "missed": [],
+      "extra": [],
+      "findings": [
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 12,
+          "message": "'chw_sp' (%MW90) is network-writable and flows into 'sp_eff' without a range check",
+          "rule": "PLC-IV",
+          "variable": "chw_sp",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "27_chiller_valve_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "28_acid_batches_vuln.st",
+      "expected": [
+        "LOGIC_BOMB"
+      ],
+      "predicted": [],
+      "missed": [
+        "LOGIC_BOMB"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "28_acid_batches_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "29_press_restart_vuln.st",
+      "expected": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "predicted": [],
+      "missed": [
+        "UNSAFE_STATE_TRANSITION"
+      ],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "29_press_restart_clean.st",
+      "expected": [],
+      "predicted": [],
+      "missed": [],
+      "extra": [],
+      "findings": [],
+      "error": null
+    },
+    {
+      "file": "30_distribution_pumps_vuln.st",
+      "expected": [
+        "DIV_BY_ZERO",
+        "INPUT_VALIDATION"
+      ],
+      "predicted": [
+        "DIV_BY_ZERO",
+        "INPUT_VALIDATION",
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "missed": [],
+      "extra": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "findings": [
+        {
+          "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+          "line": 6,
+          "message": "safety parameter 'flow_sp' is stored in network-writable %MW110",
+          "rule": "PLC-CRITVAR",
+          "variable": "flow_sp",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "DIV_BY_ZERO",
+          "line": 18,
+          "message": "divisor 'running' is not checked for zero",
+          "rule": "PLC-DIV",
+          "variable": "running",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 19,
+          "message": "'flow_sp' (%MW110) is network-writable and flows into 'VFD1_REF' without a range check",
+          "rule": "PLC-IV",
+          "variable": "flow_sp",
+          "source": "rules"
+        },
+        {
+          "vuln_type": "INPUT_VALIDATION",
+          "line": 20,
+          "message": "'flow_sp' (%MW110) is network-writable and flows into 'VFD2_REF' without a range check",
+          "rule": "PLC-IV",
+          "variable": "flow_sp",
+          "source": "rules"
+        }
+      ],
+      "error": null
+    },
+    {
+      "file": "30_distribution_pumps_clean.st",
+      "expected": [],
+      "predicted": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "missed": [],
+      "extra": [
+        "UNPROTECTED_CRITICAL_VAR"
+      ],
+      "findings": [
+        {
+          "vuln_type": "UNPROTECTED_CRITICAL_VAR",
+          "line": 6,
+          "message": "safety parameter 'flow_sp' is stored in network-writable %MW110",
+          "rule": "PLC-CRITVAR",
+          "variable": "flow_sp",
+          "source": "rules"
+        }
+      ],
+      "error": null
     }
   ],
   "run": {
-    "timestamp": "2026-10-24T04:07:07+00:00",
-    "git_commit": "f90ac55",
+    "timestamp": "2026-11-21T08:42:59+00:00",
+    "git_commit": "03f2a89",
     "git_dirty": true,
     "python": "3.13.0",
-    "dataset_hash": "98d73f944c19",
+    "dataset_hash": "11c18df898d2",
     "detector": "rules",
     "variant": "original",
+    "split": "all",
     "line_tolerance": 1,
     "repeats": 1,
-    "clean_files": 10,
-    "wall_seconds": 0.0,
+    "programs": 60,
+    "clean_files": 30,
+    "wall_seconds": 0.1,
     "metrics": {
       "n": 1,
       "precision": {
-        "mean": 1.0,
+        "mean": 0.7142857142857143,
         "std": 0.0,
         "values": [
-          1.0
+          0.7142857142857143
         ]
       },
       "recall": {
-        "mean": 1.0,
+        "mean": 0.6060606060606061,
         "std": 0.0,
         "values": [
-          1.0
+          0.6060606060606061
         ]
       },
       "f1": {
-        "mean": 1.0,
+        "mean": 0.6557377049180327,
         "std": 0.0,
         "values": [
-          1.0
+          0.6557377049180327
         ]
       },
       "clean_flagged": {
-        "mean": 0.0,
+        "mean": 2.0,
         "std": 0.0,
         "values": [
-          0
+          2
         ]
       },
       "errors": {

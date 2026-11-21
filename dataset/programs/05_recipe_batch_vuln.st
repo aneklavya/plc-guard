@@ -3,6 +3,8 @@ PROGRAM RecipeBatch
     hmi_recipe_idx AT %MW0   : INT;
     hmi_load       AT %QX1.0 : BOOL;
     temp_sp        AT %QW0   : INT;
+  END_VAR
+  VAR
     mix_time_s     : INT;
     recipe_temp    : ARRAY[0..4] OF INT := [60, 65, 70, 75, 80];
     recipe_time    : ARRAY[0..4] OF INT := [120, 150, 180, 200, 240];

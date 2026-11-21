@@ -46,16 +46,41 @@ listing where the problem is most visible.
 """
 
 
+# v2 targets the false positives seen with v1 on the dev split (scenarios
+# 01-10): generic "no e-stop" interlock findings, counters that only drive a
+# lamp reported as logic bombs, and checks the code already performs. It asks
+# for concrete evidence per finding and a self-check before answering. It was
+# written after looking at dev-split errors only; the held-out split (11-30)
+# measures whether it generalises.
+SYSTEM_PROMPT_V2 = SYSTEM_PROMPT.replace("""Rules:
+""", """Precision matters as much as recall: every false alarm costs an engineer time, so report a finding only when you can point to the exact code that makes it exploitable or unsafe.
+
+Class-specific guidance:
+- MISSING_INTERLOCK: report it only when the program has (or reads) a safety-relevant signal, limit or trip condition that the actuator's logic fails to respect, or when an actuator obviously needs a protection that is clearly missing. Do not report it merely because no generic emergency stop is declared.
+- LOGIC_BOMB: a hidden trigger (counter, date, magic value) that changes control of an actuator or process output. A counter that only lights a lamp, raises an alarm or wraps around is not a logic bomb.
+- INPUT_VALIDATION / OOB_INDEX / DIV_BY_ZERO: check every enclosing IF, LIMIT/MIN/MAX and guard first; if the value is already checked on the path, it is not a finding.
+- HMI command bits (%QX1.x BOOL) are operator commands. An operator starting or stopping equipment through them is normal; untrusted *values* in %M registers are what need validation.
+
+Before answering, re-check each candidate finding against the code and drop it if the code already handles it.
+
+Rules:
+""").replace('"explanation": "<one sentence>"}}]}}',
+             '"evidence": "<the exact missing check or trigger>", \
+"explanation": "<one sentence>"}}]}}')
+
+PROMPTS = {"v1": SYSTEM_PROMPT, "v2": SYSTEM_PROMPT_V2}
+
+
 def _classes() -> str:
     return "\n".join(f"- {t}: {DESCRIPTIONS[t]} ({CWE[t]})" for t in VulnType)
 
 
-def build_prompt(source: str) -> tuple[str, str]:
+def build_prompt(source: str, version: str = "v1") -> tuple[str, str]:
     lines = source.splitlines()
     width = len(str(len(lines)))
     listing = "\n".join(f"{i:>{width}} | {text}" for i, text in enumerate(lines, 1))
     user = f"Audit this program.\n\n```\n{listing}\n```"
-    return SYSTEM_PROMPT.format(classes=_classes()), user
+    return PROMPTS[version].format(classes=_classes()), user
 
 
 def parse_response(text: str, source_name: str = "llm") -> list[Finding]:
@@ -102,18 +127,19 @@ def _extract_json(text: str):
     raise LLMError(f"response is not JSON: {text[:200]}")
 
 
-def prompt_fingerprint() -> str:
+def prompt_fingerprint(version: str = "v1") -> str:
     """Short hash of the system prompt, logged with every run."""
-    return hashlib.sha256(build_prompt("")[0].encode()).hexdigest()[:12]
+    return hashlib.sha256(build_prompt("", version)[0].encode()).hexdigest()[:12]
 
 
 class LLMDetector:
-    def __init__(self, client: LLMClient, sample: int = 0):
+    def __init__(self, client: LLMClient, sample: int = 0, prompt: str = "v1"):
         self.client = client
         self.sample = sample
+        self.prompt = prompt
 
     def __call__(self, source: str) -> list[Finding]:
-        system, user = build_prompt(source)
+        system, user = build_prompt(source, self.prompt)
         reply = self.client.complete(system, user, self.sample)
         return sorted(parse_response(reply, f"{self.client.provider}:{self.client.model}"),
                       key=lambda f: (f.line, f.vuln_type))
@@ -122,8 +148,8 @@ class LLMDetector:
 class HybridDetector:
     """Union of the rule-based checker and the LLM detector."""
 
-    def __init__(self, client: LLMClient, sample: int = 0):
-        self.llm = LLMDetector(client, sample)
+    def __init__(self, client: LLMClient, sample: int = 0, prompt: str = "v1"):
+        self.llm = LLMDetector(client, sample, prompt)
         self.client = client
 
     def __call__(self, source: str) -> list[Finding]:

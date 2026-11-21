@@ -5,6 +5,8 @@ PROGRAM BoilerTrip
     trip_pressure  AT %MW20  : INT := 120;
     burner_enable  AT %QX0.0 : BOOL;
     trip_alarm     AT %QX0.1 : BOOL;
+  END_VAR
+  VAR
     tripped        : BOOL;
   END_VAR
 

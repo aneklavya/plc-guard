@@ -3,6 +3,8 @@ PROGRAM FlowRatio
     flow_a     AT %IW0 : INT;
     flow_b     AT %IW1 : INT;
     dosing_cmd AT %QW0 : INT;
+  END_VAR
+  VAR
     ratio_x100 : INT;
   END_VAR
 

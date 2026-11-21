@@ -5,6 +5,8 @@ PROGRAM PumpStation
     low_level_sw   AT %IX0.0 : BOOL;
     motor_overload AT %IX0.1 : BOOL;
     pump_run       AT %QX0.0 : BOOL;
+  END_VAR
+  VAR
     run_latch      : BOOL;
   END_VAR
 

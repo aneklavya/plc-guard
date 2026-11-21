@@ -15,6 +15,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      # MatIEC (OpenPLC's ST compiler), pinned, so the compile tests run in CI.
+      - uses: actions/cache@v4
+        id: matiec
+        with:
+          path: ~/matiec
+          key: matiec-c316fe57e335381cbe91f61c7366857198580ac7
+      - if: steps.matiec.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update && sudo apt-get install -y bison flex autoconf automake
+          git clone https://github.com/beremiz/matiec ~/matiec
+          cd ~/matiec && git checkout c316fe57e335381cbe91f61c7366857198580ac7
+          autoreconf -i && ./configure && make -j"$(nproc)"
+      - run: echo "PLCGUARD_IEC2C=$HOME/matiec/iec2c -I $HOME/matiec/lib" >> "$GITHUB_ENV"
       - run: pip install -r requirements.txt
       # Offline: LLM tests use fake responses, no API key is needed or available.
       - run: python -m pytest -q
